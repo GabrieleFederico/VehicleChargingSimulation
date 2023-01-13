@@ -1,14 +1,10 @@
 import sys
-import random
-from PySide6 import QtCore, QtWidgets, QtGui
-from GUIs.MainWindow import MyWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel
+from PyQt5.QtGui import QIcon
+from GUIs.MainWindow import MainWindow
 
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication([])
-
-    widget = MyWidget()
-    widget.resize(800, 600)
-    widget.show()
-
-    sys.exit(app.exec())
+    app = QApplication(sys.argv)
+    ex = MainWindow()
+    sys.exit(app.exec_())
