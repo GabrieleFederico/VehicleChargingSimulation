@@ -3,6 +3,11 @@ import random
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QDesktopWidget, QComboBox, QPushButton
 from PyQt5.QtGui import QIcon
 
+from entities.Scenario import Scenario
+from entities.Station import Station
+from entities.Vehicle import Vehicle
+from strategies.FCFS import FCFS
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -15,6 +20,7 @@ class MainWindow(QMainWindow):
         self.height = 720
         self.initUI()
         self.center()
+        self.scenario = Scenario()
 
     def initUI(self):
         self.setWindowTitle(self.title)
@@ -22,6 +28,12 @@ class MainWindow(QMainWindow):
 
         label = QLabel('Vehicles', self)
         label.move(50, 50)
+
+        #Somehow should make number of vehicles and order of vehicle editable
+        #for now let's just try to make a simple simulation
+        #vehiclesComboBoxes = []
+        #vehiclesComboBoxes.append(QComboBox(self).add)
+
 
         vehiclesComboBox = QComboBox(self)
         vehiclesComboBox.addItem("V1")
@@ -33,6 +45,10 @@ class MainWindow(QMainWindow):
         stationsComboBox.addItem("S1")
         stationsComboBox.move(50, 200)
 
+        strategiesComboBox = QComboBox(self)
+        strategiesComboBox.addItems(["FCFS", "EDF", "RR"])
+        strategiesComboBox.move(200, 200)
+
         importButton = QPushButton(self)
         importButton.move(600, 600)
         importButton.setText("Import")
@@ -41,15 +57,21 @@ class MainWindow(QMainWindow):
         runButton = QPushButton(self)
         runButton.move(500, 500)
         runButton.setText("Run")
+        runButton.clicked.connect(self.runButtonPress)
 
         self.show()
 
-
     def runButtonPress(self):
-        pass
+        scenario = Scenario()
+        scenario.addStation("S1", Station(FCFS()))
+        scenario.getStations()["S1"].addVehicle(Vehicle(name="V1"))
+        scenario.getStations()["S1"].addVehicle(Vehicle(name="V2"))
+        scenario.runSimulation()
+        return
 
     def importButtonPress(self):
         pass
+
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
