@@ -1,4 +1,4 @@
-from entities.Component.Battery import Battery
+from entities.Component.Component import Battery
 
 
 class Vehicle:
@@ -7,7 +7,8 @@ class Vehicle:
         self.components = {}
         self.arrival = arrival
         self.departure = departure
-        self.components["battery"] = Battery()
+        self.components["battery"] = Battery(owner=self)
+        self.charging = False
 
     def getArrival(self):
         return self.arrival

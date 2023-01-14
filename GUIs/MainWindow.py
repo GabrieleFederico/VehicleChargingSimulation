@@ -64,8 +64,8 @@ class MainWindow(QMainWindow):
     def runButtonPress(self):
         scenario = Scenario()
         scenario.addStation("S1", Station(FCFS()))
-        scenario.getStations()["S1"].addVehicle(Vehicle(name="V1"))
-        scenario.getStations()["S1"].addVehicle(Vehicle(name="V2"))
+        scenario.getStations()["S1"].addVehicle(Vehicle(name="V1", arrival=1))
+        scenario.getStations()["S1"].addVehicle(Vehicle(name="V2", arrival=2))
         scenario.runSimulation()
         return
 
