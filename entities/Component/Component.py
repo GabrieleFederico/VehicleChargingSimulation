@@ -11,7 +11,7 @@ class Battery(Component):
         self.stateOfCharge = 20
         # kWh
         self.capacity = 70
-        self.chargePower = 130
+        self.chargePower = 200
 
     def charge(self, power):
         currentCharge = self.capacity / 100 * self.stateOfCharge

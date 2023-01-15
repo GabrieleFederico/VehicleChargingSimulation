@@ -1,5 +1,8 @@
 import threading
 
+from entities.Scenario import Scenario
+from strategies.utils import sortByPriority
+
 
 class Station:
     def __init__(self, strategy):
@@ -10,31 +13,53 @@ class Station:
         self.availableChargePower = 300
         self.chargingVehicles = []
         self.maximumChargingVehicles = 2
+        self.chargingPowers = [x for x in range(0, self.maximumChargingVehicles)]
         self.time = 0
 
-    def addVehicle(self,  vehicle):
+    def addVehicle(self, vehicle):
         self.vehicles.append(vehicle)
 
     def runStrategy(self):
-        t1 = threading.Thread(target=self.run)
-        t1.start()
+        threading.Thread(target=self.run).start()
 
     def run(self):
-        self.strategy.run(self)
+        t1 = threading.Thread(target=self.strategy.run, args=(self,), name="T1")
+        t2 = threading.Thread(target=self.chargeVehicles, name="T2")
+        t1.start()
+        t2.start()
 
-    def chargeVehicle(self, vehicle):
-        self.strategy.condition.acquire()
-        self.chargingVehicles.append(vehicle)
-        self.strategy.condition.release()
-        while not vehicle.isCharged():
-            if self.availableChargePower <= vehicle.getBattery().getChargePower():
-                vehicle.charge(self.availableChargePower/60)
+    def chargeVehicles(self):
+
+        while len(self.vehicles) > 0:
+            while len(self.chargingVehicles) > 0:
+                self.assignChargingPower()
+                i = 0
+                for vehicle in self.chargingVehicles:
+                    if (not vehicle.isCharged()) and self.time < vehicle.departure:
+                        vehicle.charge(self.chargingPowers[i])
+                        i += 1
+                    else:
+                        self.strategy.condition.acquire()
+                        self.chargingVehicles.remove(vehicle)
+                        self.vehicles.remove(vehicle)
+                        self.strategy.condition.notify_all()
+                        self.strategy.condition.release()
+                    print(self.time, vehicle.name, self.chargingPowers, vehicle.getBattery().stateOfCharge, self.availableChargePower)
+                    self.time += 1
+            with self.strategy.condition:
+                self.time += 1
+                self.strategy.condition.notify_all()
+                self.strategy.condition.wait()
+
+
+    def assignChargingPower(self):
+        sortByPriority(self.chargingVehicles)
+        for i in range(0, len(self.chargingVehicles)):
+            if self.availableChargePower <= self.chargingVehicles[i].getBattery().getChargePower():
+                if self.chargingPowers[i] <= i:
+                    self.chargingPowers[i] = self.availableChargePower / 60
+                    self.availableChargePower -= self.availableChargePower
             else:
-                vehicle.charge(vehicle.getBattery().getChargePower()/60)
-            self.strategy.time += 1
-            print(self.strategy.time, vehicle.name, vehicle.getBattery().stateOfCharge)
-
-        self.strategy.condition.acquire()
-        self.chargingVehicles.remove(vehicle)
-        self.strategy.condition.notify_all()
-        self.strategy.condition.release()
+                if self.chargingPowers[i] <= i:
+                    self.chargingPowers[i] = self.chargingVehicles[i].getBattery().getChargePower() / 60
+                    self.availableChargePower -= self.chargingVehicles[i].getBattery().getChargePower()

@@ -1,3 +1,6 @@
+import threading
+
+
 class Scenario:
 
     def __init__(self):
@@ -5,13 +8,10 @@ class Scenario:
 
     def runSimulation(self):
         for stationName, station in self.stations.items():
-            station.runStrategy()
+            threading.Thread(target=station.runStrategy()).start()
 
     def addStation(self, name, station):
         self.stations[name] = station
 
     def getStations(self):
         return self.stations
-
-
-    
