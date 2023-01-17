@@ -12,8 +12,8 @@ class Station:
         self.maxChargePower = 300
         self.availableChargePower = 300
         self.chargingVehicles = []
-        self.maximumChargingVehicles = 2
-        self.chargingPowers = [x for x in range(0, self.maximumChargingVehicles)]
+        self.maximumChargingVehicles = 3
+        self.chargingPowers = [0 for x in range(0, self.maximumChargingVehicles)]
         self.time = 0
 
     def addVehicle(self, vehicle):
@@ -44,13 +44,12 @@ class Station:
                         self.vehicles.remove(vehicle)
                         self.strategy.condition.notify_all()
                         self.strategy.condition.release()
-                    print(self.time, vehicle.name, self.chargingPowers, vehicle.getBattery().stateOfCharge, self.availableChargePower)
-                    self.time += 1
+                    print(self.time, vehicle.name, vehicle.getBattery().stateOfCharge, self.availableChargePower)
+                self.time += 1
             with self.strategy.condition:
                 self.time += 1
                 self.strategy.condition.notify_all()
                 self.strategy.condition.wait()
-
 
     def assignChargingPower(self):
         sortByPriority(self.chargingVehicles)

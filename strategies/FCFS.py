@@ -18,10 +18,10 @@ class FCFS(Strategy):
         sortByArrival(station.vehicles)
 
         for vehicle in station.vehicles:
-            while len(station.chargingVehicles) >= 2:
+            while len(station.chargingVehicles) >= station.maximumChargingVehicles:
                 with self.condition:
                     self.condition.wait()
-            if len(station.chargingVehicles) < 2:
+            if len(station.chargingVehicles) < station.maximumChargingVehicles:
                 while station.time < vehicle.arrival:
                     with self.condition:
                         self.condition.notify_all()

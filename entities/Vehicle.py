@@ -2,7 +2,7 @@ from entities.Component.Component import Battery
 
 
 class Vehicle:
-    def __init__(self, arrival=0, departure=100, name="car"):
+    def __init__(self, arrival=0, departure=100, name="car", desiredCharge=0):
         self.name = name
         self.components = {}
         self.arrival = arrival
@@ -10,6 +10,7 @@ class Vehicle:
         self.components["battery"] = Battery(owner=self)
         self.charging = False
         self.priority = 0
+        self.desiredCharge = desiredCharge
 
     def getArrival(self):
         return self.arrival
@@ -31,3 +32,6 @@ class Vehicle:
 
     def charge(self, power):
         self.components["battery"].charge(power)
+
+    def reachedDesiredCharge(self):
+        return self.components["battery"].stateOfCharge >= self.desiredCharge
