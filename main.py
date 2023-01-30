@@ -1,10 +1,26 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel
-from PyQt5.QtGui import QIcon
-from GUIs.MainWindow import MainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtCore import QFile
+from GUIs.QTDesigner.MainWindow import Ui_MainWindow
 
 
-if __name__ == '__main__':
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+
+
+if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ex = MainWindow()
-    sys.exit(app.exec_())
+
+    window = MainWindow()
+    window.show()
+
+    sys.exit(app.exec())
+
+# if __name__ == '__main__':
+#    app = QApplication(sys.argv)
+#    ex = MainWindow()
+#    exportToCsvScenarioResult()
+#    sys.exit(app.exec_())
