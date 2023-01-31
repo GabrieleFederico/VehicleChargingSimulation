@@ -19,7 +19,7 @@ class Vehicle:
         return self.departure
 
     def getStateOfCharge(self):
-        return self.getBattery().getStateOfCharte()
+        return self.getBattery().getStateOfCharge()
 
     def getBattery(self):
         return self.components["battery"]

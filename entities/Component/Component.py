@@ -28,6 +28,9 @@ class Battery(Component):
     def getChargePower(self):
         return self.chargePower
 
+    def getStateOfCharge(self):
+        return self.stateOfCharge
+
 
 class SolarPanel(Component):
     def __init__(self, owner):
