@@ -22,10 +22,10 @@ class Ui_vehicleWidget(object):
     def setupUi(self, vehicleWidget):
         if not vehicleWidget.objectName():
             vehicleWidget.setObjectName(u"vehicleWidget")
-        vehicleWidget.resize(400, 330)
+        vehicleWidget.resize(400, 150)
         self.frame = QFrame(vehicleWidget)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(-10, -10, 431, 351))
+        self.frame.setGeometry(QRect(-10, -10, 431, 350))
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
         self.nameTextEdit = QTextEdit(self.frame)
@@ -71,7 +71,7 @@ class Ui_vehicleWidget(object):
         self.desiredChargeLabel.setObjectName(u"desiredChargeLabel")
         self.desiredChargeLabel.setGeometry(QRect(300, 100, 81, 16))
 
-        self.retranslateUi(self, vehicleWidget)
+        self.retranslateUi(self, vehicleWidget=vehicleWidget)
 
         QMetaObject.connectSlotsByName(vehicleWidget)
     # setupUi

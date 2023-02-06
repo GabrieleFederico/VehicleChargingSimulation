@@ -1,5 +1,7 @@
 import sys
+from pydoc import text
 
+from PySide6 import QtCore
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtWidgets import QFrame, QWidget
 from PySide6.QtWidgets import QApplication, QMainWindow
@@ -17,23 +19,21 @@ class VehicleWidget(QWidget):
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
+        self.widgets = []
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.addVehicleButton.clicked.connect(self.addFrame)
-        self.createNewVehicleWidget(0, 0)
         self.show()
 
     def addFrame(self):
-        self.createNewVehicleWidget(0, 0)
+        self.createNewVehicleWidget()
 
-    def createNewVehicleWidget(self, rowNumber, columnNumber):
-        newName = "frame" + str(rowNumber) + "_" + str(columnNumber)
-        self.frame = VehicleWidget()
-        self.frame.setObjectName(newName)
-        self.frame.setMaximumSize(QSize(350, 150))
-        self.frame.setMaximumSize(QSize(350, 150))
-        self.ui.gridLayout.addWidget(self.frame, rowNumber, columnNumber, 1, 1, Qt.AlignHCenter | Qt.AlignVCenter)
-
+    def createNewVehicleWidget(self):
+        self.widget = VehicleWidget()
+        self.widget.setParent(self.ui.scrollAreaWidgetContents)
+        self.widget.setObjectName(u"widget")
+        self.widgets.append(self.widget)
+        self.ui.listView.addWidget(self.widget)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

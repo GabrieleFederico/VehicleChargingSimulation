@@ -96,9 +96,30 @@
      <rect>
       <x>30</x>
       <y>30</y>
-      <width>611</width>
-      <height>521</height>
+      <width>631</width>
+      <height>541</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="sizeIncrement">
+     <size>
+      <width>0</width>
+      <height>200</height>
+     </size>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOn</enum>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContents</enum>
     </property>
     <property name="widgetResizable">
      <bool>true</bool>
@@ -108,11 +129,30 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>609</width>
-       <height>519</height>
+       <width>612</width>
+       <height>539</height>
       </rect>
      </property>
-     <layout class="QGridLayout" name="gridLayout"/>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>250</horstretch>
+       <verstretch>250</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="sizeIncrement">
+      <size>
+       <width>100</width>
+       <height>200</height>
+      </size>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
+      </property>
+      <item>
+       <widget class="QListView" name="listView"/>
+      </item>
+     </layout>
     </widget>
    </widget>
   </widget>
