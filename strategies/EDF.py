@@ -1,6 +1,6 @@
 import threading
 
-import Strategy
+from strategies.Strategy import Strategy
 from strategies.utils import sortByArrival
 
 

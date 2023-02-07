@@ -16,9 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QFrame,
-    QLayout, QListView, QMainWindow, QPushButton,
-    QScrollArea, QSizePolicy, QStatusBar, QVBoxLayout,
-    QWidget)
+    QLayout, QMainWindow, QPushButton, QScrollArea,
+    QSizePolicy, QStatusBar, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -70,16 +69,12 @@ class Ui_MainWindow(object):
         self.verticalLayout = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setSizeConstraint(QLayout.SetNoConstraint)
-        self.listView = QListView(self.scrollAreaWidgetContents)
-        self.listView.setObjectName(u"listView")
-
-        self.verticalLayout.addWidget(self.listView)
-
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.scrollAreaWidgetContents.setLayout(self.verticalLayout)
 
         self.retranslateUi(MainWindow)
 

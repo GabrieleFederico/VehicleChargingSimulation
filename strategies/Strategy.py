@@ -1,8 +1,8 @@
 class Strategy:
     name = "StrategyName"
 
-    def __init__(self, scenario):
-        self.scenario = scenario
+    def __init__(self):
+        pass
 
-    def run(self):
+    def run(self, station):
         pass

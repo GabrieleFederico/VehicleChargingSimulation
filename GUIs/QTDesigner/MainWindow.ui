@@ -149,9 +149,6 @@
       <property name="sizeConstraint">
        <enum>QLayout::SetNoConstraint</enum>
       </property>
-      <item>
-       <widget class="QListView" name="listView"/>
-      </item>
      </layout>
     </widget>
    </widget>

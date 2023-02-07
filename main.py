@@ -7,6 +7,12 @@ from PySide6.QtWidgets import QFrame, QWidget
 from PySide6.QtWidgets import QApplication, QMainWindow
 from GUIs.QTDesigner.MainWindow import Ui_MainWindow
 from GUIs.QTDesigner.VehicleWidget import Ui_vehicleWidget
+from entities.Scenario import Scenario
+from entities.Station import Station
+from entities.Vehicle import Vehicle
+from strategies.EDF import EDF
+from strategies.FCFS import FCFS
+from strategies.RoundRobin import RoundRobin
 
 
 class VehicleWidget(QWidget):
@@ -23,6 +29,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.addVehicleButton.clicked.connect(self.addFrame)
+        self.ui.runPushButton.clicked.connect(self.runSimulation)
         self.show()
 
     def addFrame(self):
@@ -33,7 +40,39 @@ class MainWindow(QMainWindow):
         self.widget.setParent(self.ui.scrollAreaWidgetContents)
         self.widget.setObjectName(u"widget")
         self.widgets.append(self.widget)
-        self.ui.listView.addWidget(self.widget)
+        self.ui.verticalLayout.addWidget(self.widget)
+        #self.ui.scrollArea.setWidget(self.ui.scrollAreaWidgetContents)
+
+    def runSimulation(self):
+        scenario = Scenario()
+        match self.ui.strategyComboBox.currentText():
+            case "FCFS":
+                scenario.addStation("S1", Station(FCFS()))
+            case "EDF":
+                scenario.addStation("S1", Station(EDF()))
+            case "RR":
+                scenario.addStation("S1", Station(RoundRobin()))
+        for widget in self.widgets:
+            vehicle = Vehicle(name=widget.ui.nameTextEdit.toPlainText(),
+                              arrival=int(widget.ui.arrivalTextEdit.toPlainText()),
+                              departure=int(widget.ui.departureTextEdit.toPlainText()),
+                              desiredCharge=float(widget.ui.desiredChargeTextEdit.toPlainText()))
+            vehicle.getBattery().capacity = float(widget.ui.capacityTextEdit.toPlainText())
+            vehicle.getBattery().chargePower = float(widget.ui.chargePowerTextEdit.toPlainText())
+            vehicle.getBattery().stateOfCharge = float(widget.ui.socTextEdit.toPlainText())
+
+            scenario.getStations()["S1"].addVehicle(vehicle)
+
+        """
+        scenario.addStation("S1", Station(FCFS()))
+        scenario.getStations()["S1"].addVehicle(Vehicle(name="V1", arrival=1))
+        scenario.getStations()["S1"].addVehicle(Vehicle(name="V1", arrival=1, departure=15))
+        scenario.getStations()["S1"].addVehicle(Vehicle(name="V2", arrival=2))
+        scenario.getStations()["S1"].addVehicle(Vehicle(name="V3", arrival=1))
+        """
+        scenario.runSimulation()
+        return
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

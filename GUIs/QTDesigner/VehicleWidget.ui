@@ -87,7 +87,7 @@
      <string>Departure</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_3">
+   <widget class="QTextEdit" name="departureTextEdit">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -133,7 +133,7 @@
      <string>ChargePower</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="capacityTextEdit_2">
+   <widget class="QTextEdit" name="chargePowerTextEdit">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -143,7 +143,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QTextEdit" name="capacityTextEdit_3">
+   <widget class="QTextEdit" name="socTextEdit">
     <property name="geometry">
      <rect>
       <x>220</x>
@@ -166,7 +166,7 @@
      <string>SOC</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="capacityTextEdit_4">
+   <widget class="QTextEdit" name="desiredChargeTextEdit">
     <property name="geometry">
      <rect>
       <x>300</x>
