@@ -29,7 +29,6 @@ class Station:
         t2.start()
 
     def chargeVehicles(self):
-
         while len(self.vehicles) > 0:
             while len(self.chargingVehicles) > 0:
                 self.assignChargingPower()

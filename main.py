@@ -18,8 +18,8 @@ from strategies.RoundRobin import RoundRobin
 class VehicleWidget(QWidget):
     def __init__(self):
         super(VehicleWidget, self).__init__()
-        self.ui = Ui_vehicleWidget
-        self.ui.setupUi(self.ui, self)
+        self.ui = Ui_vehicleWidget()
+        self.ui.setupUi(self)
 
 
 class MainWindow(QMainWindow):
@@ -36,12 +36,11 @@ class MainWindow(QMainWindow):
         self.createNewVehicleWidget()
 
     def createNewVehicleWidget(self):
-        self.widget = VehicleWidget()
-        self.widget.setParent(self.ui.scrollAreaWidgetContents)
-        self.widget.setObjectName(u"widget")
-        self.widgets.append(self.widget)
-        self.ui.verticalLayout.addWidget(self.widget)
-        #self.ui.scrollArea.setWidget(self.ui.scrollAreaWidgetContents)
+        widget = VehicleWidget()
+        widget.setParent(self.ui.scrollAreaWidgetContents)
+        self.widgets.append(widget)
+        self.ui.verticalLayout.addWidget(widget)
+        self.ui.scrollArea.setWidget(self.ui.scrollAreaWidgetContents)
 
     def runSimulation(self):
         scenario = Scenario()
@@ -52,6 +51,7 @@ class MainWindow(QMainWindow):
                 scenario.addStation("S1", Station(EDF()))
             case "RR":
                 scenario.addStation("S1", Station(RoundRobin()))
+
         for widget in self.widgets:
             vehicle = Vehicle(name=widget.ui.nameTextEdit.toPlainText(),
                               arrival=int(widget.ui.arrivalTextEdit.toPlainText()),
@@ -62,14 +62,7 @@ class MainWindow(QMainWindow):
             vehicle.getBattery().stateOfCharge = float(widget.ui.socTextEdit.toPlainText())
 
             scenario.getStations()["S1"].addVehicle(vehicle)
-
-        """
-        scenario.addStation("S1", Station(FCFS()))
-        scenario.getStations()["S1"].addVehicle(Vehicle(name="V1", arrival=1))
-        scenario.getStations()["S1"].addVehicle(Vehicle(name="V1", arrival=1, departure=15))
-        scenario.getStations()["S1"].addVehicle(Vehicle(name="V2", arrival=2))
-        scenario.getStations()["S1"].addVehicle(Vehicle(name="V3", arrival=1))
-        """
+            
         scenario.runSimulation()
         return
 

@@ -71,7 +71,7 @@ class Ui_vehicleWidget(object):
         self.desiredChargeLabel.setObjectName(u"desiredChargeLabel")
         self.desiredChargeLabel.setGeometry(QRect(300, 100, 81, 16))
 
-        self.retranslateUi(self, vehicleWidget=vehicleWidget)
+        self.retranslateUi(vehicleWidget)
 
         QMetaObject.connectSlotsByName(vehicleWidget)
     # setupUi

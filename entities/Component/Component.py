@@ -19,7 +19,6 @@ class Battery(Component):
             self.stateOfCharge = 100
         else:
             self.stateOfCharge = (currentCharge + power)*100/self.capacity
-
         return
 
     def isCharged(self):

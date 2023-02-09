@@ -2,7 +2,7 @@ from entities.Component.Component import Battery
 
 
 class Vehicle:
-    def __init__(self, arrival=0, departure=100, name="car", desiredCharge=0):
+    def __init__(self, arrival=0, departure=100, name="car", desiredCharge=80):
         self.name = name
         self.components = {}
         self.arrival = arrival
