@@ -1,4 +1,5 @@
 import sys
+import json
 from pydoc import text
 
 from PySide6 import QtCore
@@ -29,6 +30,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.addVehicleButton.clicked.connect(self.addFrame)
+        self.ui.exportPushButton.clicked.connect(self.exportToJson)
         self.ui.runPushButton.clicked.connect(self.runSimulation)
         self.show()
 
@@ -66,6 +68,27 @@ class MainWindow(QMainWindow):
         scenario.runSimulation()
         return
 
+    def exportToJson(self):
+        vehicles = []
+        for widget in self.widgets:
+            vehicle = Vehicle(name=widget.ui.nameTextEdit.toPlainText(),
+                              arrival=int(widget.ui.arrivalTextEdit.toPlainText()),
+                              departure=int(widget.ui.departureTextEdit.toPlainText()),
+                              desiredCharge=float(widget.ui.desiredChargeTextEdit.toPlainText()))
+            vehicle.getBattery().capacity = float(widget.ui.capacityTextEdit.toPlainText())
+            vehicle.getBattery().chargePower = float(widget.ui.chargePowerTextEdit.toPlainText())
+            vehicle.getBattery().stateOfCharge = float(widget.ui.socTextEdit.toPlainText())
+            vehicles.append(vehicle)
+
+        vehiclesList = []
+        for vehicle in vehicles:
+            vehiclesList.append(vehicle.toDict())
+        jsonObject = json.dumps(vehiclesList, indent=4, )
+        with open("JSONFiles/samplejson.json", "w") as out:
+
+            out.write(jsonObject)
+
+        return
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

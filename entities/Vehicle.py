@@ -1,3 +1,5 @@
+import json
+
 from entities.Component.Component import Battery
 
 
@@ -35,3 +37,11 @@ class Vehicle:
 
     def reachedDesiredCharge(self):
         return self.components["battery"].stateOfCharge >= self.desiredCharge
+
+    def toDict(self):
+        components = []
+        for key, comp in self.components.items():
+            components.append(comp.toDict())
+        return {"name" : self.name, "arrival" : self.arrival, "departure" : self.departure,
+                "desiredCharge" : self.desiredCharge, "components" : components}
+

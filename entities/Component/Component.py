@@ -1,8 +1,13 @@
+import json
+
+
 class Component:
     def __init__(self, name="name", owner=None):
         self.name = name
         self.owner = owner
 
+    def toDict(self):
+        pass
 
 class Battery(Component):
     def __init__(self, owner):
@@ -30,6 +35,9 @@ class Battery(Component):
     def getStateOfCharge(self):
         return self.stateOfCharge
 
+    def toDict(self):
+        return {"component": "battery", "capacity": self.capacity, "charge power": self.chargePower,
+                "state of charge": self.stateOfCharge}
 
 class SolarPanel(Component):
     def __init__(self, owner):
