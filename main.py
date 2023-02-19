@@ -46,13 +46,12 @@ class MainWindow(QMainWindow):
 
     def runSimulation(self):
         scenario = Scenario()
-        match self.ui.strategyComboBox.currentText():
-            case "FCFS":
-                scenario.addStation("S1", Station(FCFS()))
-            case "EDF":
-                scenario.addStation("S1", Station(EDF()))
-            case "RR":
-                scenario.addStation("S1", Station(RoundRobin()))
+        if self.ui.strategyComboBox.currentText() == "FCFS":
+            scenario.addStation("S1", Station(FCFS()))
+        elif self.ui.strategyComboBox.currentText() == "EDF":
+            scenario.addStation("S1", Station(EDF()))
+        elif self.ui.strategyComboBox.currentText() == "RR":
+            scenario.addStation("S1", Station(RoundRobin()))
 
         for widget in self.widgets:
             vehicle = Vehicle(name=widget.ui.nameTextEdit.toPlainText(),
@@ -84,8 +83,7 @@ class MainWindow(QMainWindow):
         for vehicle in vehicles:
             vehiclesList.append(vehicle.toDict())
         jsonObject = json.dumps(vehiclesList, indent=4, )
-        with open("JSONFiles/samplejson.json", "w") as out:
-
+        with open("JSONFiles/vehicles.json", "w") as out:
             out.write(jsonObject)
 
         return
