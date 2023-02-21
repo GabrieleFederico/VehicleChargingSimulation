@@ -14,6 +14,7 @@ from entities.Vehicle import Vehicle
 from strategies.EDF import EDF
 from strategies.FCFS import FCFS
 from strategies.RoundRobin import RoundRobin
+from strategies.utils import exportToJson
 
 
 class VehicleWidget(QWidget):
@@ -42,7 +43,7 @@ class MainWindow(QMainWindow):
         widget.setParent(self.ui.scrollAreaWidgetContents)
         self.widgets.append(widget)
         self.ui.verticalLayout.addWidget(widget)
-        self.ui.scrollArea.setWidget(self.ui.scrollAreaWidgetContents)
+        #self.ui.scrollArea.setWidget(self.ui.scrollAreaWidgetContents)
 
     def runSimulation(self):
         scenario = Scenario()
@@ -79,12 +80,7 @@ class MainWindow(QMainWindow):
             vehicle.getBattery().stateOfCharge = float(widget.ui.socTextEdit.toPlainText())
             vehicles.append(vehicle)
 
-        vehiclesList = []
-        for vehicle in vehicles:
-            vehiclesList.append(vehicle.toDict())
-        jsonObject = json.dumps(vehiclesList, indent=4, )
-        with open("JSONFiles/vehicles.json", "w") as out:
-            out.write(jsonObject)
+        exportToJson(vehicles)
 
         return
 
