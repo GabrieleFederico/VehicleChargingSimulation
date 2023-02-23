@@ -29,6 +29,8 @@ class FCFS(Strategy):
                 with self.condition:
                     with self.condition:
                         station.chargingVehicles.append(vehicle)
+                        vehicle.charging = True
+                        vehicle.startingChargeTime = station.time
                         self.condition.notify_all()
                     self.assignPriority(station.chargingVehicles)
 

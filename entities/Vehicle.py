@@ -11,8 +11,11 @@ class Vehicle:
         self.departure = departure
         self.components["battery"] = Battery(owner=self)
         self.charging = False
+        self.startingChargeTime = -1
+        self.finishingChargeTime = -1
         self.priority = 0
         self.desiredCharge = desiredCharge
+        self.timeToCharge = 0
 
     def getArrival(self):
         return self.arrival
