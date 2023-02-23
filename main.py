@@ -1,9 +1,5 @@
 import sys
-import json
-from pydoc import text
 
-from PySide6 import QtCore
-from PySide6.QtCore import QSize, Qt
 from PySide6.QtWidgets import QFrame, QWidget
 from PySide6.QtWidgets import QApplication, QMainWindow
 from GUIs.QTDesigner.MainWindow import Ui_MainWindow
@@ -32,6 +28,7 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.addVehicleButton.clicked.connect(self.addFrame)
         self.ui.exportPushButton.clicked.connect(self.exportToJson)
+        self.ui.importPushButton.clicked.connect(self.importFromCSV)
         self.ui.runPushButton.clicked.connect(self.runSimulation)
         self.show()
 
@@ -83,6 +80,12 @@ class MainWindow(QMainWindow):
         exportToJson(vehicles)
 
         return
+
+    def importFromCSV(self):
+        #TODO: ask the user to select a csv file
+        #TODO: parse the csv
+        pass
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
