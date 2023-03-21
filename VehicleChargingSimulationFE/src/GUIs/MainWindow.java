@@ -12,10 +12,13 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.Choice;
+import java.awt.Component;
+import java.awt.Dimension;
+
+import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JTabbedPane;
 
 public class MainWindow extends JFrame {
 
@@ -43,7 +46,7 @@ public class MainWindow extends JFrame {
 	 */
 	public MainWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 710, 487);
+		setBounds(100, 100, 715, 488);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -63,28 +66,21 @@ public class MainWindow extends JFrame {
 		
 		JButton runButton = new JButton("Run");
 		
-		JPanel vehiclesPanel = new JPanel();
-		
-		VehicleWidget vehicleWidget_1 = new VehicleWidget();
+		JTabbedPane stationsTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(vehiclesPanel, GroupLayout.PREFERRED_SIZE, 522, GroupLayout.PREFERRED_SIZE)
+					.addComponent(stationsTabbedPane, GroupLayout.PREFERRED_SIZE, 531, GroupLayout.PREFERRED_SIZE)
+					.addGap(16)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(25)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(addVehicleButton, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
-								.addComponent(strategyLabel, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-								.addComponent(strategyDropPanel, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-								.addComponent(importButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-								.addComponent(exportButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-								.addComponent(runButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(57)
-							.addComponent(vehicleWidget_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+						.addComponent(addVehicleButton, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
+						.addComponent(strategyLabel, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+						.addComponent(strategyDropPanel, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+						.addComponent(importButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+						.addComponent(exportButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+						.addComponent(runButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -102,22 +98,24 @@ public class MainWindow extends JFrame {
 							.addGap(11)
 							.addComponent(exportButton)
 							.addGap(12)
-							.addComponent(runButton)
-							.addGap(77)
-							.addComponent(vehicleWidget_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(runButton))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(vehiclesPanel, GroupLayout.PREFERRED_SIZE, 418, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(stationsTabbedPane, GroupLayout.PREFERRED_SIZE, 419, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
-		
-		VehicleWidget vehicleWidget = new VehicleWidget();
-		vehiclesPanel.add(vehicleWidget);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		vehiclesPanel.add(scrollPane);
+		stationsTabbedPane.addTab("Station 1", null, scrollPane, null);
+		
+		JPanel innerPanel = new JPanel();
+		scrollPane.setViewportView(innerPanel);
+		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
+		innerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		Dimension maxSize = innerPanel.getPreferredSize();
+		maxSize.width = Short.MAX_VALUE;
+		innerPanel.setMaximumSize(maxSize);
+		
 		contentPane.setLayout(gl_contentPane);
-		vehiclesPanel.add(new VehicleWidget());
 		
 		addVehicleButton.addActionListener(new ActionListener() {
 
@@ -125,10 +123,10 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				VehicleWidget newVehicleWidget = new VehicleWidget();
 				vehicleWidgets.add(newVehicleWidget);
-				scrollPane.add(newVehicleWidget);
-				scrollPane.add(new JButton());
-				revalidate();
-				
+				innerPanel.add(newVehicleWidget);
+				innerPanel.add(new JButton());
+				innerPanel.revalidate();
+				innerPanel.repaint();
 			}
 			
 		});
