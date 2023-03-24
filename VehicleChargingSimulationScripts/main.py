@@ -28,7 +28,7 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.addVehicleButton.clicked.connect(self.addFrame)
         self.ui.exportPushButton.clicked.connect(self.exportToJson)
-        self.ui.importPushButton.clicked.connect(self.importFromCSV)
+        self.ui.importPushButton.clicked.connect(self.importFromJSON)
         self.ui.runPushButton.clicked.connect(self.runSimulation)
         self.show()
 

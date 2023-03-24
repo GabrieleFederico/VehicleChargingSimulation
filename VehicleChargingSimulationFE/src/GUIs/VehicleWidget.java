@@ -26,9 +26,7 @@ public class VehicleWidget extends JPanel {
 	 * Create the frame.
 	 */
 	public VehicleWidget() {
-		setBounds(100, 100, 388, 172);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane = new JPanel(); 
 		
 		JLabel nameLabel = new JLabel("Name");
 		
