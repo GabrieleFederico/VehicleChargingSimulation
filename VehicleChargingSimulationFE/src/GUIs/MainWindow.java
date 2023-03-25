@@ -29,6 +29,14 @@ public class MainWindow extends JFrame {
 
 	private JPanel contentPane;
 	private ArrayList<VehicleWidget> vehicleWidgets = new ArrayList<>();
+	private JButton addVehicleButton;
+	private JButton importButton;
+	private JButton exportButton;
+	private JButton runButton;
+	private JTabbedPane stationsTabbedPane;
+	private JComboBox<String> strategyDropPanel;
+	private JButton addStationButton;
+	private GroupLayout gl_contentPane;
 
 	/**
 	 * Launch the application.
@@ -55,100 +63,101 @@ public class MainWindow extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
-		JButton addVehicleButton = new JButton("Add Vehicle");
+		addVehicleButton = new JButton("Add Vehicle");
 		
-		JButton importButton = new JButton("Import");
+		importButton = new JButton("Import");
 		
-		JButton exportButton = new JButton("Export");
+		exportButton = new JButton("Export");
 		
-		JButton runButton = new JButton("Run");
+		runButton = new JButton("Run");
 		
-		JTabbedPane stationsTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		stationsTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
-		JComboBox<String> strategyDropPanel = new JComboBox<String>();
+		strategyDropPanel = new JComboBox<String>();
 		strategyDropPanel.setModel(new DefaultComboBoxModel<String>(new String[] {"FCFS", "EDF", "RR"}));
 		
-		JButton addStationButton = new JButton("Add Station");
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(stationsTabbedPane, GroupLayout.PREFERRED_SIZE, 531, GroupLayout.PREFERRED_SIZE)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(exportButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-								.addComponent(runButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-								.addComponent(importButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-								.addComponent(strategyDropPanel, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(6)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(addStationButton, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
-								.addComponent(addVehicleButton, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))))
-					.addGap(121))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(37)
-							.addComponent(addStationButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(addVehicleButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-							.addGap(23)
-							.addComponent(strategyDropPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(importButton)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(exportButton)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(runButton))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(stationsTabbedPane, GroupLayout.PREFERRED_SIZE, 419, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		JScrollPane scrollPane = new JScrollPane();
-		stationsTabbedPane.addTab("Station 1", null, scrollPane, null);
+		addStationButton = new JButton("Add Station");
+		gl_contentPane = new GroupLayout(contentPane);
+		setMainLayout();
 		
-		JPanel innerPanel = new JPanel();
-		scrollPane.setViewportView(innerPanel);
-		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
-		innerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-		Dimension maxSize = innerPanel.getPreferredSize();
-		maxSize.width = Short.MAX_VALUE;
-		innerPanel.setMaximumSize(maxSize);
+		addStation(stationsTabbedPane);
 		
 		contentPane.setLayout(gl_contentPane);
 		
 		addVehicleButton.addActionListener(e-> {
 			int selectedIndex = stationsTabbedPane.getSelectedIndex();
             if (selectedIndex != -1) {
-                JPanel tabPanel = (JPanel) ((JScrollPane) stationsTabbedPane.getComponentAt(selectedIndex)).getViewport().getView();
-                JPanel widgetPanel = new MyWidget();
-                //vehicleWidgets.add(widgetPanel);
-                tabPanel.add(widgetPanel);
-                tabPanel.revalidate();
-                tabPanel.repaint();
+            	addVehicle((JPanel) ((JScrollPane) stationsTabbedPane.getComponentAt(selectedIndex)).getViewport().getView());
             }
 		});
 		
 		addStationButton.addActionListener(e -> {
-        	JPanel tabPanel = new JPanel();
-        	tabPanel.setLayout(new BoxLayout(tabPanel, BoxLayout.Y_AXIS));
-        	JScrollPane newScrollPane = new JScrollPane(tabPanel);
-        	newScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        	newScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        	stationsTabbedPane.addTab("Station " + (stationsTabbedPane.getTabCount() + 1), newScrollPane);
-
+        	addStation(stationsTabbedPane);
         });
 		
 		setContentPane(contentPane);
 	}
 	
+	private void addStation(JTabbedPane tabbedPane) {
+		JPanel tabPanel = new JPanel();
+    	tabPanel.setLayout(new BoxLayout(tabPanel, BoxLayout.Y_AXIS));
+    	JScrollPane newScrollPane = new JScrollPane(tabPanel);
+    	newScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    	newScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    	tabbedPane.addTab("Station " + (tabbedPane.getTabCount() + 1), newScrollPane);
+	}
+	
+	private void addVehicle(JPanel tabPanel) {
+        JPanel widgetPanel = new MyWidget();
+        //vehicleWidgets.add(widgetPanel);
+        tabPanel.add(widgetPanel);
+        tabPanel.revalidate();
+        tabPanel.repaint();
+	}
+
+	private void setMainLayout() {
+		gl_contentPane.setHorizontalGroup(
+				gl_contentPane.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_contentPane.createSequentialGroup()
+						.addContainerGap()
+						.addComponent(stationsTabbedPane, GroupLayout.PREFERRED_SIZE, 531, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(exportButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+									.addComponent(runButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+									.addComponent(importButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+									.addComponent(strategyDropPanel, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addGap(6)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addComponent(addStationButton, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
+									.addComponent(addVehicleButton, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE))))
+						.addGap(121))
+			);
+			gl_contentPane.setVerticalGroup(
+				gl_contentPane.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_contentPane.createSequentialGroup()
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addGap(37)
+								.addComponent(addStationButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(addVehicleButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+								.addGap(23)
+								.addComponent(strategyDropPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(importButton)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(exportButton)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(runButton))
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(stationsTabbedPane, GroupLayout.PREFERRED_SIZE, 419, GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+			);
+	}
 }
 

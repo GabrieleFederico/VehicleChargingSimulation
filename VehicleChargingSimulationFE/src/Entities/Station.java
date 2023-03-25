@@ -19,4 +19,20 @@ public class Station {
 	public String GetName() {
 		return _name;
 	}
+	
+	public void SetNeame(String name) {
+		_name = name;
+	}
+
+	public ArrayList<Vehicle> GetVehicles(){
+		return _vehicles;
+	}
+
+	public void SetVehicles(ArrayList<Vehicle> vehicles) {
+		_vehicles = vehicles;
+	}
+	
+	public void AddVehicle(Vehicle vehicle) {
+		_vehicles.add(vehicle);
+	}
 }
