@@ -1,26 +1,16 @@
 package GUIs;
 
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
-import java.awt.Choice;
-import java.awt.Component;
-import java.awt.Dimension;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTabbedPane;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -117,7 +107,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void addVehicle(JPanel tabPanel) {
-        JPanel widgetPanel = new MyWidget();
+        JPanel widgetPanel = new VehicleWidget();
         ((StationWidget)(stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex()))).add(widgetPanel);
         tabPanel.add(widgetPanel);
         tabPanel.revalidate();

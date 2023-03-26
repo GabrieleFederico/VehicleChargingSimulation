@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import Entities.Vehicle;
 
 public class StationWidget extends JScrollPane {
 
