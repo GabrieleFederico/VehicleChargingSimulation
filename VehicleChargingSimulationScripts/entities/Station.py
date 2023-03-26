@@ -47,11 +47,16 @@ class Station:
                         self.strategy.condition.release()
                     print(self.time, vehicle.name, vehicle.getBattery().stateOfCharge, self.availableChargePower,
                           vehicle.startingChargeTime, vehicle.finishingChargeTime)
-                self.time += 1
+                with self.strategy.condition:
+                    self.time += 1
+                    if len(self.chargingVehicles) < self.maximumChargingVehicles and len(self.vehicles) > 1 and len(self.chargingVehicles) != len(self.vehicles):
+                        self.strategy.condition.notify_all()
+                        self.strategy.condition.wait()
             with self.strategy.condition:
-                self.time += 1
-                self.strategy.condition.notify_all()
-                self.strategy.condition.wait()
+                if len(self.vehicles) > 1:
+                    self.time += 1
+                    self.strategy.condition.notify_all()
+                    self.strategy.condition.wait()
 
     def assignChargingPower(self):
         sortByPriority(self.chargingVehicles)
