@@ -8,6 +8,7 @@ from strategies.utils import sortByArrival
 class FCFS(Strategy):
 
     def __init__(self):
+        super().__init__()
         self.name = "FCFS"
         self.condition = threading.Condition()
 

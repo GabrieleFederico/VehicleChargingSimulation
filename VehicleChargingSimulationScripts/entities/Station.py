@@ -4,7 +4,8 @@ from strategies.utils import sortByPriority
 
 
 class Station:
-    def __init__(self, strategy):
+    def __init__(self, name, strategy):
+        self.name = name
         self.components = []
         self.strategy = strategy
         self.vehicles = []
@@ -70,3 +71,13 @@ class Station:
                 if self.chargingPowers[i] <= i:
                     self.chargingPowers[i] = self.chargingVehicles[i].getBattery().getChargePower() / 60
                     self.availableChargePower -= self.chargingVehicles[i].getBattery().getChargePower()
+
+    def toDict(self):
+        componentsDicts = []
+        for comp in self.components:
+            componentsDicts.append(comp.toDict())
+        vehiclesDicts = []
+        for vehicle in self.vehicles:
+            vehiclesDicts.append(vehicle.toDict())
+        return {"name": self.name, "vehicles": vehiclesDicts, "components": componentsDicts}
+

@@ -2,10 +2,9 @@ import sys
 
 from tkinter import *
 from tkinter import Tk
-from tkinter.filedialog import askopenfilename
+from tkinter import filedialog
 
-from PySide6.QtWidgets import QFrame, QWidget
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QWidget, QApplication, QMainWindow
 from GUIs.QTDesigner.MainWindow import Ui_MainWindow
 from GUIs.QTDesigner.VehicleWidget import Ui_vehicleWidget
 from entities.Scenario import Scenario
@@ -14,7 +13,7 @@ from entities.Vehicle import Vehicle
 from strategies.EDF import EDF
 from strategies.FCFS import FCFS
 from strategies.RoundRobin import RoundRobin
-from strategies.utils import exportToJson
+from strategies.utils import exportToJson, importFromJson
 
 
 class VehicleWidget(QWidget):
@@ -47,56 +46,46 @@ class MainWindow(QMainWindow):
         # self.ui.scrollArea.setWidget(self.ui.scrollAreaWidgetContents)
 
     def runSimulation(self):
-        scenario = Scenario()
-        if self.ui.strategyComboBox.currentText() == "FCFS":
-            scenario.addStation("S1", Station(FCFS()))
-        elif self.ui.strategyComboBox.currentText() == "EDF":
-            scenario.addStation("S1", Station(EDF()))
-        elif self.ui.strategyComboBox.currentText() == "RR":
-            scenario.addStation("S1", Station(RoundRobin()))
-
-        for widget in self.widgets:
-            vehicle = Vehicle(name=widget.ui.nameTextEdit.toPlainText(),
-                              arrival=int(widget.ui.arrivalTextEdit.toPlainText()),
-                              departure=int(widget.ui.departureTextEdit.toPlainText()),
-                              desiredCharge=float(widget.ui.desiredChargeTextEdit.toPlainText()))
-            vehicle.getBattery().capacity = float(widget.ui.capacityTextEdit.toPlainText())
-            vehicle.getBattery().chargePower = float(widget.ui.chargePowerTextEdit.toPlainText())
-            vehicle.getBattery().stateOfCharge = float(widget.ui.socTextEdit.toPlainText())
-
-            scenario.getStations()["S1"].addVehicle(vehicle)
-
-        scenario.runSimulation()
+        self.extractScenario().runSimulation()
         return
 
     def exportToJson(self):
-        vehicles = []
-        for widget in self.widgets:
-            vehicle = Vehicle(name=widget.ui.nameTextEdit.toPlainText(),
-                              arrival=int(widget.ui.arrivalTextEdit.toPlainText()),
-                              departure=int(widget.ui.departureTextEdit.toPlainText()),
-                              desiredCharge=float(widget.ui.desiredChargeTextEdit.toPlainText()))
-            vehicle.getBattery().capacity = float(widget.ui.capacityTextEdit.toPlainText())
-            vehicle.getBattery().chargePower = float(widget.ui.chargePowerTextEdit.toPlainText())
-            vehicle.getBattery().stateOfCharge = float(widget.ui.socTextEdit.toPlainText())
-            vehicles.append(vehicle)
-
-        exportToJson(vehicles)
-
+        exportToJson(self.extractScenario())
         return
 
     def importFromJSON(self):
         self.open_file()
-        pass
+        return
 
     def open_file(self):
         Tk().withdraw()
-        filepath = askopenfilename(title="Open a Text File",
-                                   filetypes=(("json files", "*.json"), ("all files", "*.*")))
+        filepath = filedialog.askopenfilename(title="Open a json File",
+                                              filetypes=(("json files", "*.json"), ("all files", "*.*")))
         file = open(filepath, 'r')
         print(file.read())
-        # TODO: parse the file
+        # importFromJson(file)
         file.close()
+
+    def extractScenario(self):
+        scenario = Scenario("Scenario one")
+        if self.ui.strategyComboBox.currentText() == "FCFS":
+            scenario.addStation(Station("S1", FCFS()))
+        elif self.ui.strategyComboBox.currentText() == "EDF":
+            scenario.addStation(Station("S1", EDF()))
+        elif self.ui.strategyComboBox.currentText() == "RR":
+            scenario.addStation(Station("S1", RoundRobin()))
+
+        for widget in self.widgets:
+            vehicle = Vehicle(name=widget.ui.nameTextEdit.toPlainText(),
+                              arrival=int(widget.ui.arrivalTextEdit.toPlainText()),
+                              departure=int(widget.ui.departureTextEdit.toPlainText()),
+                              desiredCharge=float(widget.ui.desiredChargeTextEdit.toPlainText()))
+            vehicle.getBattery().capacity = float(widget.ui.capacityTextEdit.toPlainText())
+            vehicle.getBattery().chargePower = float(widget.ui.chargePowerTextEdit.toPlainText())
+            vehicle.getBattery().stateOfCharge = float(widget.ui.socTextEdit.toPlainText())
+
+            scenario.getStations()[0].addVehicle(vehicle)
+        return scenario
 
 
 if __name__ == "__main__":

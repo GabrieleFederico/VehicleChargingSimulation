@@ -6,10 +6,11 @@ class Component:
     def toDict(self):
         pass
 
+
 class Battery(Component):
     def __init__(self, owner):
         super().__init__(name="Battery", owner=owner)
-        # percentage (preferrably between 20 and 80)
+        # percentage (preferably between 20 and 80)
         self.stateOfCharge = 20
         # kWh
         self.capacity = 70
@@ -20,7 +21,7 @@ class Battery(Component):
         if currentCharge + power >= self.capacity:
             self.stateOfCharge = 100
         else:
-            self.stateOfCharge = (currentCharge + power)*100/self.capacity
+            self.stateOfCharge = (currentCharge + power) * 100 / self.capacity
         return
 
     def isCharged(self):
@@ -35,6 +36,7 @@ class Battery(Component):
     def toDict(self):
         return {"component": "battery", "capacity": self.capacity, "charge power": self.chargePower,
                 "state of charge": self.stateOfCharge}
+
 
 class SolarPanel(Component):
     def __init__(self, owner):
