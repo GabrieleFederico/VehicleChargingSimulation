@@ -3,7 +3,9 @@ package GUIs;
 import java.awt.EventQueue;
 import java.io.File;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -130,8 +132,10 @@ public class MainWindow extends JFrame {
 		pb.directory(pythonScriptsDir);
 		pb.command("py", "hello.py");
 		try {
-			pb.redirectOutput(new File("D:/VehicleChargingSimulation/VehicleChargingSimulationScripts/out.txt"));
-			System.out.println();
+			String fileName = "ChargingSim"+ Calendar.getInstance().getTimeInMillis();
+			pb.redirectOutput(new File("D:/VehicleChargingSimulation/VehicleChargingSimulationScripts/"+fileName+".txt"));
+			//pb.redirectOutput(new File("D:/VehicleChargingSimulation/VehicleChargingSimulationScripts/tets.txt"));
+
 			pb.start();
 			
 		} catch (IOException e) {
