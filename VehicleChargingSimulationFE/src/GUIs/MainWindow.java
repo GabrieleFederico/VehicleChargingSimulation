@@ -1,6 +1,8 @@
 package GUIs;
 
 import java.awt.EventQueue;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -123,7 +125,19 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void runSimulation() {
-		
+		ProcessBuilder pb = new ProcessBuilder();
+		File pythonScriptsDir = new File("D:/VehicleChargingSimulation/VehicleChargingSimulationScripts");
+		pb.directory(pythonScriptsDir);
+		pb.command("py", "hello.py");
+		try {
+			pb.redirectOutput(new File("D:/VehicleChargingSimulation/VehicleChargingSimulationScripts/out.txt"));
+			System.out.println();
+			pb.start();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void setMainLayout() {

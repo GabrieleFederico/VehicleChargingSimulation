@@ -63,7 +63,7 @@ class MainWindow(QMainWindow):
                                               filetypes=(("json files", "*.json"), ("all files", "*.*")))
         file = open(filepath, 'r')
         print(file.read())
-        # importFromJson(file)
+        importFromJson(file)
         file.close()
 
     def extractScenario(self):
