@@ -28,7 +28,7 @@ import javax.swing.DefaultComboBoxModel;
 public class MainWindow extends JFrame {
 
 	private JPanel contentPane;
-	private ArrayList<VehicleWidget> vehicleWidgets = new ArrayList<>();
+	private ArrayList<StationWidget> stationWidgets = new ArrayList<>();
 	private JButton addVehicleButton;
 	private JButton importButton;
 	private JButton exportButton;
@@ -111,17 +111,14 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void addStation(JTabbedPane tabbedPane) {
-		JPanel tabPanel = new JPanel();
-    	tabPanel.setLayout(new BoxLayout(tabPanel, BoxLayout.Y_AXIS));
-    	JScrollPane newScrollPane = new JScrollPane(tabPanel);
-    	newScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-    	newScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-    	tabbedPane.addTab("Station " + (tabbedPane.getTabCount() + 1), newScrollPane);
+		JScrollPane station = new StationWidget();
+		stationWidgets.add((StationWidget) station);
+    	tabbedPane.addTab("Station " + (tabbedPane.getTabCount() + 1), station);
 	}
 	
 	private void addVehicle(JPanel tabPanel) {
         JPanel widgetPanel = new MyWidget();
-        //vehicleWidgets.add(widgetPanel);
+        ((StationWidget)(stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex()))).add(widgetPanel);
         tabPanel.add(widgetPanel);
         tabPanel.revalidate();
         tabPanel.repaint();
