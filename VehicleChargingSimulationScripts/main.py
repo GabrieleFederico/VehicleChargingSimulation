@@ -1,5 +1,9 @@
 import sys
 
+from tkinter import *
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
+
 from PySide6.QtWidgets import QFrame, QWidget
 from PySide6.QtWidgets import QApplication, QMainWindow
 from GUIs.QTDesigner.MainWindow import Ui_MainWindow
@@ -40,7 +44,7 @@ class MainWindow(QMainWindow):
         widget.setParent(self.ui.scrollAreaWidgetContents)
         self.widgets.append(widget)
         self.ui.verticalLayout.addWidget(widget)
-        #self.ui.scrollArea.setWidget(self.ui.scrollAreaWidgetContents)
+        # self.ui.scrollArea.setWidget(self.ui.scrollAreaWidgetContents)
 
     def runSimulation(self):
         scenario = Scenario()
@@ -61,7 +65,7 @@ class MainWindow(QMainWindow):
             vehicle.getBattery().stateOfCharge = float(widget.ui.socTextEdit.toPlainText())
 
             scenario.getStations()["S1"].addVehicle(vehicle)
-            
+
         scenario.runSimulation()
         return
 
@@ -82,9 +86,17 @@ class MainWindow(QMainWindow):
         return
 
     def importFromJSON(self):
-        #TODO: ask the user to select a csv file
-        #TODO: parse the csv
+        self.open_file()
         pass
+
+    def open_file(self):
+        Tk().withdraw()
+        filepath = askopenfilename(title="Open a Text File",
+                                   filetypes=(("json files", "*.json"), ("all files", "*.*")))
+        file = open(filepath, 'r')
+        print(file.read())
+        # TODO: parse the file
+        file.close()
 
 
 if __name__ == "__main__":
@@ -94,4 +106,3 @@ if __name__ == "__main__":
     window.show()
 
     sys.exit(app.exec())
-
