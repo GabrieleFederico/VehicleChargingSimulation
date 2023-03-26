@@ -95,6 +95,18 @@ public class MainWindow extends JFrame {
         	addStation(stationsTabbedPane);
         });
 		
+		importButton.addActionListener(e->{
+			importFromJSON();
+		});
+		
+		exportButton.addActionListener(e->{
+			exportToJSON();
+		});
+		
+		runButton.addActionListener(e->{
+			runSimulation();
+		});
+		
 		setContentPane(contentPane);
 	}
 	
@@ -115,6 +127,18 @@ public class MainWindow extends JFrame {
         tabPanel.repaint();
 	}
 
+	private void importFromJSON() {
+		
+	}
+	
+	private void exportToJSON() {
+		
+	}
+	
+	private void runSimulation() {
+		
+	}
+	
 	private void setMainLayout() {
 		gl_contentPane.setHorizontalGroup(
 				gl_contentPane.createParallelGroup(Alignment.LEADING)
