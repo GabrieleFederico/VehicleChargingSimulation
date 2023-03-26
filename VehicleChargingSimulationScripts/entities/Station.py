@@ -1,6 +1,5 @@
 import threading
 
-from entities.Scenario import Scenario
 from strategies.utils import sortByPriority
 
 

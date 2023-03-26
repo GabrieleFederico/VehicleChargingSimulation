@@ -1,5 +1,3 @@
-import json
-
 from entities.Component.Component import Battery
 
 

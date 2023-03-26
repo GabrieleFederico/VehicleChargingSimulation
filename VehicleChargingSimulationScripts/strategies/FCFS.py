@@ -1,9 +1,6 @@
-import queue
 import threading
 
-from entities.Scenario import Scenario
 from strategies.Strategy import Strategy
-from dataclasses import dataclass
 
 from strategies.utils import sortByArrival
 

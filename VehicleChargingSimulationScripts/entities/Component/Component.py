@@ -1,6 +1,3 @@
-import json
-
-
 class Component:
     def __init__(self, name="name", owner=None):
         self.name = name
