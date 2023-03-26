@@ -49,7 +49,8 @@ class Station:
                           vehicle.startingChargeTime, vehicle.finishingChargeTime)
                 with self.strategy.condition:
                     self.time += 1
-                    if len(self.chargingVehicles) < self.maximumChargingVehicles and len(self.vehicles) > 1 and len(self.chargingVehicles) != len(self.vehicles):
+                    if len(self.chargingVehicles) < self.maximumChargingVehicles and 1 < len(self.vehicles) != len(
+                            self.chargingVehicles):
                         self.strategy.condition.notify_all()
                         self.strategy.condition.wait()
             with self.strategy.condition:
