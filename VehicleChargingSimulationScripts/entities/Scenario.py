@@ -21,5 +21,5 @@ class Scenario:
         stationsDicts = []
         for station in self.stations:
             stationsDicts.append(station.toDict())
-        return {"name": self.name, "stations": stationsDicts}
+        return {"scenario_name": self.name, "stations": stationsDicts}
 

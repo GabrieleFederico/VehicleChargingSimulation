@@ -79,5 +79,5 @@ class Station:
         vehiclesDicts = []
         for vehicle in self.vehicles:
             vehiclesDicts.append(vehicle.toDict())
-        return {"name": self.name, "vehicles": vehiclesDicts, "components": componentsDicts}
+        return {"station_name": self.name, "vehicles": vehiclesDicts, "components": componentsDicts}
 
