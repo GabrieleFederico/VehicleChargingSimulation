@@ -16,13 +16,8 @@ public class Vehicle {
 	private int _arrival;
 	@JsonProperty("departure")
 	private int _departure;
-	@JsonIgnore
-	private boolean _bCharging;
-	private int _startingChargeTime = -1;
-	private int _finishingChargeTime = -1;
-	private int _priority = 0;
+	@JsonProperty("desired_charge")
 	private int _desiredCharge = 80;
-	private int _timeToCharge = 0;
 	
 	public Vehicle() {
 		
@@ -72,37 +67,6 @@ public class Vehicle {
 		_departure = departure;
 	}
 
-	public boolean isCharging() {
-		return _bCharging;
-	}
-
-	public void SetCharging(boolean bCharging) {
-		_bCharging = bCharging;
-	}
-
-	public int GetStartingChargeTime() {
-		return _startingChargeTime;
-	}
-
-	public void SetStartingChargeTime(int startingChargeTime) {
-		_startingChargeTime = startingChargeTime;
-	}
-
-	public int GetFinishingChargeTime() {
-		return _finishingChargeTime;
-	}
-
-	public void SetFinishingChargeTime(int finishingChargeTime) {
-		_finishingChargeTime = finishingChargeTime;
-	}
-
-	public int GetPriority() {
-		return _priority;
-	}
-
-	public void SetPriority(int priority) {
-		_priority = priority;
-	}
 
 	public int GetDesiredCharge() {
 		return _desiredCharge;
@@ -111,14 +75,5 @@ public class Vehicle {
 	public void SetDesiredCharge(int desiredCharge) {
 		_desiredCharge = desiredCharge;
 	}
-
-	public int GetTimeToCharge() {
-		return _timeToCharge;
-	}
-
-	public void SetTimeToCharge(int timeToCharge) {
-		_timeToCharge = timeToCharge;
-	}
-	
 	
 }

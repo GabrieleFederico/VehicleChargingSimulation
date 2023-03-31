@@ -30,11 +30,13 @@ public class MainWindow extends JFrame {
 
 	private JPanel contentPane;
 	private ArrayList<StationWidget> stationWidgets = new ArrayList<>();
-	private JButton addVehicleButton;
 	private JButton importButton;
 	private JButton exportButton;
 	private JButton runButton;
 	private JTabbedPane stationsTabbedPane;
+	//TODO: Do I want this here or in the station widget?
+		private JButton addVehicleButton;
+	//TODO: Do I want this here or in the station widget?
 	private JComboBox<String> strategyDropPanel;
 	private JButton addStationButton;
 	private GroupLayout gl_contentPane;
@@ -148,7 +150,7 @@ public class MainWindow extends JFrame {
 		ProcessBuilder pb = new ProcessBuilder();
 		File pythonScriptsDir = new File("D:/VehicleChargingSimulation/VehicleChargingSimulationScripts");
 		pb.directory(pythonScriptsDir);
-		pb.command("py", "main.py", "test", "merda");
+		pb.command("py", "main.py", "test", "test2");
 		try {
 			String fileName = "ChargingSim" + Calendar.getInstance().getTimeInMillis();
 			pb.redirectOutput(
@@ -156,16 +158,19 @@ public class MainWindow extends JFrame {
 			pb.start();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	private String parseScenario() {
 		for(int i = 0; i < stationsTabbedPane.getTabCount(); i++) {
-			StationWidget station = ((StationWidget) (stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex())));
-			for(VehicleWidget vehicle : station.GetVehicleWidgets()) {
-				vehicle.makeVehicle();
+			StationWidget stationWidget = ((StationWidget) (stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex())));
+			Station station = stationWidget.makeStation();
+			for(VehicleWidget vehicleWidget : stationWidget.GetVehicleWidgets()) {
+				station.AddVehicle(vehicleWidget.makeVehicle());
+				//TODO: how do i want to make the message. Ideally I just create the Scenario class
+				//from this and then just make a call like "scenario.getScenarioAsMessage()" or
+				//something similar
 			}
 		}
 		return null;

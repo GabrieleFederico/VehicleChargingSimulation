@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import Entities.Station;
+
 
 public class StationWidget extends JScrollPane {
 
@@ -30,6 +32,12 @@ public class StationWidget extends JScrollPane {
 	
 	public ArrayList<VehicleWidget> GetVehicleWidgets() {
 		return vehicleWidgets;
+	}
+
+	public Station makeStation() {
+		//TODO: this will actually do something once a station is properly defined
+		//and once I add the chance to modify a station from UI
+		return new Station();
 	}
 
 }

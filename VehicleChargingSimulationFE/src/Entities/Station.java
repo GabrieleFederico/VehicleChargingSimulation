@@ -17,17 +17,14 @@ public class Station {
 	private ArrayList<Vehicle> _vehicles = new ArrayList<>();
 	@JsonProperty("max_charge_power")
 	private int _maxChargePower = 300;
-	private int _availableChargePower = 300;
-	private ArrayList<Vehicle> _chargingVehicles = new ArrayList<>();
+	@JsonProperty("charging_slots")
 	private int _maximumChargingVehicles = 3;
-	private ArrayList<Integer> _chargingPowers = new ArrayList<>(_maximumChargingVehicles);
-	private int _time = 0;
 	
 	public String GetName() {
 		return _name;
 	}
 	
-	public void SetNeame(String name) {
+	public void SetName(String name) {
 		_name = name;
 	}
 

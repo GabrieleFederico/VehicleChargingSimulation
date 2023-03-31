@@ -59,6 +59,7 @@ class Station:
                     self.time += 1
                     self.strategy.condition.notify_all()
                     self.strategy.condition.wait()
+        self.collectResult()
 
     def assignChargingPower(self):
         sortByPriority(self.chargingVehicles)
@@ -81,3 +82,15 @@ class Station:
             vehiclesDicts.append(vehicle.toDict())
         return {"station_name": self.name, "vehicles": vehiclesDicts, "components": componentsDicts}
 
+    # TODO: Should these 3 methods be here or in a Result class? Or maybe in the Scenario class?
+    # Or maybe in the result class which should be an attribute of Scenario?
+
+    def collectResult(self):
+        self.totalSimulationResult()
+        self.perVehicleResult()
+
+    def totalSimulationResult(self):
+        pass
+
+    def perVehicleResult(self):
+        pass
