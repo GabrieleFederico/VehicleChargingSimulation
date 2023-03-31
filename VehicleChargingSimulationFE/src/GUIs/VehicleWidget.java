@@ -4,6 +4,9 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import Entities.Battery;
+import Entities.Vehicle;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
@@ -120,6 +123,21 @@ public class VehicleWidget extends JPanel {
 							.addComponent(SOCTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(desiredChargeTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 			);
+	}
+
+	
+	public Vehicle makeVehicle() {
+		Vehicle vehicle =  new Vehicle(nameTextField.getText(),
+				Integer.parseInt(arrivalTextField.getText()), Integer.parseInt(departureTextField.getText()),
+				Integer.parseInt(desiredChargeTextField.getText()));
+		vehicle.AddComponent("Battery", makeBattery());
+		return vehicle;
+	}
+	
+	private Battery makeBattery() {
+		Battery battery = new Battery(Integer.parseInt(SOCTextField.getText()),
+				Integer.parseInt(capacityTextField.getText()), Integer.parseInt(chargePowerTextField.getText()));
+		return battery;
 	}
 	
 

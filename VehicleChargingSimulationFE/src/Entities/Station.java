@@ -3,12 +3,19 @@ package Entities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class Station {
 	
-	private HashMap<String, Component> _components;
+	@JsonProperty("station_name")
 	private String _name;
+	@JsonProperty("components")
+	private HashMap<String, Component> _components;
+	@JsonProperty("strategy")
 	private int _strategy;
+	@JsonProperty("vehicles")
 	private ArrayList<Vehicle> _vehicles = new ArrayList<>();
+	@JsonProperty("max_charge_power")
 	private int _maxChargePower = 300;
 	private int _availableChargePower = 300;
 	private ArrayList<Vehicle> _chargingVehicles = new ArrayList<>();

@@ -27,5 +27,9 @@ public class StationWidget extends JScrollPane {
 	public void AddVehicleWidget(VehicleWidget vehicleWidget) {
 		vehicleWidgets.add(vehicleWidget);
 	}
+	
+	public ArrayList<VehicleWidget> GetVehicleWidgets() {
+		return vehicleWidgets;
+	}
 
 }

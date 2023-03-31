@@ -144,10 +144,11 @@ public class MainWindow extends JFrame {
 	}
 
 	private void runSimulation() {
+		String message = parseScenario();
 		ProcessBuilder pb = new ProcessBuilder();
 		File pythonScriptsDir = new File("D:/VehicleChargingSimulation/VehicleChargingSimulationScripts");
 		pb.directory(pythonScriptsDir);
-		pb.command("py", "main.py", "test");
+		pb.command("py", "main.py", "test", "merda");
 		try {
 			String fileName = "ChargingSim" + Calendar.getInstance().getTimeInMillis();
 			pb.redirectOutput(
@@ -158,6 +159,16 @@ public class MainWindow extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private String parseScenario() {
+		for(int i = 0; i < stationsTabbedPane.getTabCount(); i++) {
+			StationWidget station = ((StationWidget) (stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex())));
+			for(VehicleWidget vehicle : station.GetVehicleWidgets()) {
+				vehicle.makeVehicle();
+			}
+		}
+		return null;
 	}
 
 	private void setMainLayout() {

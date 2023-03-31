@@ -2,12 +2,21 @@ package Entities;
 
 import java.util.HashMap;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Vehicle {
 
+	@JsonProperty("vehicle_name")
 	private String _name;
+	@JsonProperty("components")
 	private HashMap<String, Component> _components;
+	@JsonProperty("arrival")
 	private int _arrival;
+	@JsonProperty("departure")
 	private int _departure;
+	@JsonIgnore
 	private boolean _bCharging;
 	private int _startingChargeTime = -1;
 	private int _finishingChargeTime = -1;
@@ -19,10 +28,10 @@ public class Vehicle {
 		
 	}
 	
-	public Vehicle(int arrival, int departure, String name, int desiredCharge) {
+	public Vehicle(String name, int arrival, int departure, int desiredCharge) {
+		_name = name;
 		_arrival = arrival;
 		_departure = departure;
-		_name = name;
 		_desiredCharge = desiredCharge;
 	}
 
@@ -42,6 +51,11 @@ public class Vehicle {
 		_components = components;
 	}
 
+	public void AddComponent(String key, Component value) {
+		_components.put(key, value);
+		value.SetOwner(this);
+	}
+	
 	public int GetArrival() {
 		return _arrival;
 	}
