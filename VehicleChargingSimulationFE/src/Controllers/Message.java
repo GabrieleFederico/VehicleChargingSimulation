@@ -4,7 +4,7 @@ import Entities.Scenario;
 
 public class Message {
 	
-	enum Operation{
+	public enum Operation{
 		RUN,
 		EXPORT,
 		IMPORT
@@ -16,7 +16,7 @@ public class Message {
 	
 	Message(){}
 	
-	Message(Operation operation, Scenario scenario){
+	public Message(Operation operation, Scenario scenario){
 		_operation = operation;
 		_scenario = scenario;
 	}

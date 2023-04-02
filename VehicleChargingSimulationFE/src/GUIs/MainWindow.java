@@ -1,7 +1,9 @@
 package GUIs;
 
 import java.awt.EventQueue;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +15,8 @@ import javax.swing.border.EmptyBorder;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import Controllers.Message;
+import Entities.Battery;
 import Entities.Scenario;
 import Entities.Station;
 import Entities.Vehicle;
@@ -146,11 +150,11 @@ public class MainWindow extends JFrame {
 	}
 
 	private void runSimulation() {
-		String message = parseScenario();
+		Message message = new Message(Message.Operation.RUN, parseScenario());
 		ProcessBuilder pb = new ProcessBuilder();
-		File pythonScriptsDir = new File("D:/VehicleChargingSimulation/VehicleChargingSimulationScripts");
+		File pythonScriptsDir = new File("../VehicleChargingSimulationScripts");
 		pb.directory(pythonScriptsDir);
-		pb.command("py", "main.py", "test", "test2");
+		pb.command("py", "main.py", message.toString());
 		try {
 			String fileName = "ChargingSim" + Calendar.getInstance().getTimeInMillis();
 			pb.redirectOutput(
@@ -162,18 +166,17 @@ public class MainWindow extends JFrame {
 		}
 	}
 
-	private String parseScenario() {
+	private Scenario parseScenario() {
+		Scenario scenario = new Scenario();
 		for(int i = 0; i < stationsTabbedPane.getTabCount(); i++) {
 			StationWidget stationWidget = ((StationWidget) (stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex())));
 			Station station = stationWidget.makeStation();
 			for(VehicleWidget vehicleWidget : stationWidget.GetVehicleWidgets()) {
 				station.AddVehicle(vehicleWidget.makeVehicle());
-				//TODO: how do i want to make the message. Ideally I just create the Scenario class
-				//from this and then just make a call like "scenario.getScenarioAsMessage()" or
-				//something similar
 			}
+			scenario.AddStation(station);
 		}
-		return null;
+		return scenario;
 	}
 
 	private void setMainLayout() {
