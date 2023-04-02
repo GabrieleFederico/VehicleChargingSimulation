@@ -1,17 +1,17 @@
 package Entities;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Vehicle {
 
 	@JsonProperty("vehicle_name")
 	private String _name;
 	@JsonProperty("components")
-	private HashMap<String, Component> _components;
+	private HashMap<String, Component> _components = new HashMap<>();
 	@JsonProperty("arrival")
 	private int _arrival;
 	@JsonProperty("departure")
@@ -74,6 +74,20 @@ public class Vehicle {
 
 	public void SetDesiredCharge(int desiredCharge) {
 		_desiredCharge = desiredCharge;
+	}
+	
+	@Override
+	public String toString() {
+		String string = "{\"vehicle_name\":"+"\""+_name+"\","+"\"arrival\":"+
+				_arrival+",\"departure\":"+_departure+",\"desired_charge\":"+_desiredCharge+",\"components\":[";
+		for(Map.Entry<String, Component> component: _components.entrySet()) {
+			string += component.getValue().toString();
+			string += ",";
+		}
+		StringBuffer sb = new StringBuffer(string);
+		sb.deleteCharAt(sb.length()-1);
+		string = sb.toString()+"]}";
+		return string;
 	}
 	
 }

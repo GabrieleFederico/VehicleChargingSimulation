@@ -44,4 +44,4 @@ class Vehicle:
         for key, comp in self.components.items():
             components.append(comp.toDict())
         return {"vehicle_name": self.name, "arrival": self.arrival, "departure": self.departure,
-                "desiredCharge": self.desiredCharge, "components": components}
+                "desired_charge": self.desiredCharge, "components": components}

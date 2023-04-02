@@ -8,7 +8,7 @@ public abstract class Component {
 	protected String _name;
 	protected Object _owner;
 	
-	Component(String name) {}
+	Component(String name) {_name = name;}
 	
 	public Component(String name, Object owner){
 		_name = name;

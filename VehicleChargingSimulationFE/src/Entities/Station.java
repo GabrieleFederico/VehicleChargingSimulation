@@ -2,6 +2,7 @@ package Entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -10,7 +11,7 @@ public class Station {
 	@JsonProperty("station_name")
 	private String _name;
 	@JsonProperty("components")
-	private HashMap<String, Component> _components;
+	private HashMap<String, Component> _components = new HashMap<>();
 	@JsonProperty("strategy")
 	private int _strategy;
 	@JsonProperty("vehicles")
@@ -38,5 +39,27 @@ public class Station {
 	
 	public void AddVehicle(Vehicle vehicle) {
 		_vehicles.add(vehicle);
+	}
+	
+	@Override
+	public String toString() {
+		String string = "{\"station_name\":"+ "\"" + _name +"\","+ "\"vehicles\":[";
+		for(Vehicle vehicle: _vehicles) {
+			string += vehicle.toString();
+			string += ",";
+		}
+		StringBuffer sb = new StringBuffer(string);
+		sb.deleteCharAt(sb.length()-1);
+		string = sb.toString();
+		
+		string += "],\"components\":[";
+		for(Map.Entry<String, Component> component: _components.entrySet()) {
+			string += component.getValue().toString();
+			string += ",";
+		}
+		sb = new StringBuffer(string);
+		sb.deleteCharAt(sb.length()-1);
+		string = sb.toString() + "]}";
+		return string;
 	}
 }

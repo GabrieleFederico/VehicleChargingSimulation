@@ -34,8 +34,8 @@ class Battery(Component):
         return self.stateOfCharge
 
     def toDict(self):
-        return {"component": "battery", "capacity": self.capacity, "charge power": self.chargePower,
-                "state of charge": self.stateOfCharge}
+        return {"component_name": "battery", "capacity": self.capacity, "charge_power": self.chargePower,
+                "state_of_charge": self.stateOfCharge}
 
 
 class SolarPanel(Component):
