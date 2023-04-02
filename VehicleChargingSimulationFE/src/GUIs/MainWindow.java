@@ -39,7 +39,7 @@ public class MainWindow extends JFrame {
 	private JButton runButton;
 	private JTabbedPane stationsTabbedPane;
 	//TODO: Do I want this here or in the station widget?
-		private JButton addVehicleButton;
+	private JButton addVehicleButton;
 	//TODO: Do I want this here or in the station widget?
 	private JComboBox<String> strategyDropPanel;
 	private JButton addStationButton;

@@ -23,6 +23,7 @@ public class Message {
 	
 	@Override
 	public String toString() {
-		return _version + _operation.name() + _scenario.toString();
+		return "version=" + _version+ " " + "operation=" + _operation.name() +
+				"body="+_scenario.toString();
 	}
 }
