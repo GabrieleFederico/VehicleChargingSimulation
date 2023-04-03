@@ -108,7 +108,12 @@ public class MainWindow extends JFrame {
 		});
 
 		exportButton.addActionListener(e -> {
-			exportToJSON();
+			try {
+				exportToJSON();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 
 		runButton.addActionListener(e -> {
@@ -126,7 +131,7 @@ public class MainWindow extends JFrame {
 
 	private void addVehicle(JPanel tabPanel) {
 		JPanel widgetPanel = new VehicleWidget();
-		((StationWidget) (stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex()))).add(widgetPanel);
+		((StationWidget) (stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex()))).AddVehicleWidget((VehicleWidget)widgetPanel);;
 		tabPanel.add(widgetPanel);
 		tabPanel.revalidate();
 		tabPanel.repaint();
@@ -145,8 +150,12 @@ public class MainWindow extends JFrame {
 		}
 	}
 
-	private void exportToJSON() {
-
+	private void exportToJSON() throws IOException {
+		File pythonScriptsDir = new File("../Out/test.txt");
+	    BufferedWriter writer = new BufferedWriter(new FileWriter(pythonScriptsDir));
+	    writer.write(parseScenario().toString());
+	    
+	    writer.close();
 	}
 
 	private void runSimulation() {
