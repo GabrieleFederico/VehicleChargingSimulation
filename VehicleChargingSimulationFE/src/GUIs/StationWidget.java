@@ -13,7 +13,7 @@ import Entities.Station;
 public class StationWidget extends JScrollPane {
 
 	private JPanel panel;
-	private ArrayList<VehicleWidget> vehicleWidgets;
+	private ArrayList<VehicleWidget> vehicleWidgets = new ArrayList<>();
 	
 	/**
 	 * Create the panel.
