@@ -1,6 +1,5 @@
 import sys
 
-from tkinter import *
 from tkinter import Tk
 from tkinter import filedialog
 
@@ -89,8 +88,8 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
+    #parseMessage(sys.argv[1])
     app = QApplication(sys.argv)
-
     window = MainWindow()
     window.show()
 
