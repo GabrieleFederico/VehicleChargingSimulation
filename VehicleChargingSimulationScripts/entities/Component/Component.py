@@ -3,6 +3,10 @@ class Component:
         self.name = name
         self.owner = owner
 
+    @classmethod
+    def parseComponent(cls, string):
+        pass
+
     def toDict(self):
         pass
 
@@ -32,6 +36,10 @@ class Battery(Component):
 
     def getStateOfCharge(self):
         return self.stateOfCharge
+
+    @classmethod
+    def parseComponent(cls, string):
+        pass
 
     def toDict(self):
         return {"component_name": "battery", "capacity": self.capacity, "charge_power": self.chargePower,

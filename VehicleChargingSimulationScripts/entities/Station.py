@@ -73,6 +73,10 @@ class Station:
                     self.chargingPowers[i] = self.chargingVehicles[i].getBattery().getChargePower() / 60
                     self.availableChargePower -= self.chargingVehicles[i].getBattery().getChargePower()
 
+    @classmethod
+    def parseStation(cls, string):
+        pass
+
     def toDict(self):
         componentsDicts = []
         for comp in self.components:

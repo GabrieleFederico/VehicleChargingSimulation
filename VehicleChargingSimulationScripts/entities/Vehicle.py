@@ -39,6 +39,10 @@ class Vehicle:
     def reachedDesiredCharge(self):
         return self.components["battery"].stateOfCharge >= self.desiredCharge
 
+    @classmethod
+    def parseVehicle(cls, string):
+        pass
+
     def toDict(self):
         components = []
         for key, comp in self.components.items():

@@ -23,3 +23,7 @@ class Scenario:
             stationsDicts.append(station.toDict())
         return {"scenario_name": self.name, "stations": stationsDicts}
 
+    @classmethod
+    def parseScenario(cls, string):
+        pass
+
