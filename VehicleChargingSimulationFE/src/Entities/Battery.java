@@ -51,7 +51,7 @@ public class Battery extends Component {
 	@Override
 	public String toString() {
 		
-		return "{component_name:"+_name+","+"capacity:"+
+		return "C{component_name:"+_name+","+"capacity:"+
 		_capacity+",charge_power:"+_chargePower+",state_of_charge:"+_sOC+"}";
 	}
 

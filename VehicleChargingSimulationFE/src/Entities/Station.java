@@ -43,7 +43,7 @@ public class Station {
 	
 	@Override
 	public String toString() {
-		String string = "{station_name:"+ _name +","+ "vehicles:[";
+		String string = "St{station_name:"+ _name +","+ "vehicles:[";
 		for(Vehicle vehicle: _vehicles) {
 			string += vehicle.toString();
 			string += ",";
