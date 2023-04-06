@@ -30,7 +30,7 @@ public class Scenario {
 	
 	@Override
 	public String toString() {
-		String string = "{\"scenario_name\":"+ "\"" + _name +"\","+ "\"stations\":[";
+		String string = "{scenario_name:" + _name +","+ "stations:[";
 		for(Station station : _stations) {
 			string += station.toString();
 		}

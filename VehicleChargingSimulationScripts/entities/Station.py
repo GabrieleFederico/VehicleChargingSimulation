@@ -84,7 +84,7 @@ class Station:
         vehiclesDicts = []
         for vehicle in self.vehicles:
             vehiclesDicts.append(vehicle.toDict())
-        return {"station_name": self.name, "vehicles": vehiclesDicts, "components": componentsDicts}
+        return {"station_name": self.name, "vehicles": vehiclesDicts, "station_components": componentsDicts}
 
     # TODO: Should these 3 methods be here or in a Result class? Or maybe in the Scenario class?
     # Or maybe in the result class which should be an attribute of Scenario?

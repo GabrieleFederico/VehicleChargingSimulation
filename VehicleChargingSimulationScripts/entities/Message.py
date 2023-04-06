@@ -14,16 +14,19 @@ class Message:
         self.version = 1
         self.operation = -1
 
-    def parseMessage(self, string):
+    @classmethod
+    def parseMessage(cls, string):
+        message = Message()
+
         splitString = string.split(":")
         versionOperation = splitString[0].split("operation=")
         if versionOperation[1] == "RUN":
-            self.operation = 0
+            message.operation = 0
         elif versionOperation[1] == "EXPORT":
-            self.operation = 1
+            message.operation = 1
         elif versionOperation[1] == "IMPORT":
-            self.operation = 2
+            message.operation = 2
 
-        self.scenario = Scenario.parseScenario(splitString[1])
+        message.scenario = Scenario.parseScenario(splitString[1])
 
-        return
+        return message

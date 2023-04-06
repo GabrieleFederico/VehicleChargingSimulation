@@ -78,8 +78,8 @@ public class Vehicle {
 	
 	@Override
 	public String toString() {
-		String string = "{\"vehicle_name\":"+"\""+_name+"\","+"\"arrival\":"+
-				_arrival+",\"departure\":"+_departure+",\"desired_charge\":"+_desiredCharge+",\"components\":[";
+		String string = "{vehicle_name:"+_name+","+"arrival:"+
+				_arrival+",departure:"+_departure+",desired_charge:"+_desiredCharge+",components:[";
 		for(Map.Entry<String, Component> component: _components.entrySet()) {
 			string += component.getValue().toString();
 			string += ",";

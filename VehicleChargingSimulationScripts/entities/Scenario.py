@@ -25,5 +25,7 @@ class Scenario:
 
     @classmethod
     def parseScenario(cls, string):
+        #TODO: divide only the scenario attributes
+        scenario = Scenario()
         pass
 
