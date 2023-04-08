@@ -5,7 +5,7 @@ from entities.Message import Message
 from strategies.Strategy import FCFS
 from strategies.importExportUtils import exportToJson
 
-
+"""
 from tkinter import Tk
 from tkinter import filedialog
 
@@ -88,13 +88,14 @@ class MainWindow(QMainWindow):
             battery.capacity = float(widget.ui.capacityTextEdit.toPlainText())
             battery.chargePower = float(widget.ui.chargePowerTextEdit.toPlainText())
             battery.stateOfCharge = float(widget.ui.socTextEdit.toPlainText())
+            vehicle.addComponent(battery, battery.name)
 
             scenario.getStations()[0].addVehicle(vehicle)
         return scenario
 
-
+"""
 if __name__ == "__main__":
-    """
+
     message = Message.parseMessage(sys.argv[1])
     if Message.Operation(message.operation).name == Message.Operation.EXPORT.name:
         exportToJson(message.scenario)
@@ -106,4 +107,4 @@ if __name__ == "__main__":
     window.show()
 
     sys.exit(app.exec())
-
+    """

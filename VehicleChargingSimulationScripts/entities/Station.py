@@ -62,11 +62,11 @@ class Station:
                         self.strategy.condition.notify_all()
                         self.strategy.condition.wait()
             with self.strategy.condition:
-                if len(self.vehicles) > 1:
+                if len(self.vehicles) > 0:
                     self.time += 1
                     self.strategy.condition.notify_all()
                     self.strategy.condition.wait()
-        self.collectResult()
+        #self.collectResult()
 
     def assignChargingPower(self):
         sortByPriority(self.chargingVehicles)
