@@ -5,6 +5,7 @@ class Component:
 
     @classmethod
     def parseComponent(cls, string):
+        print("string")
         pass
 
     def toDict(self):
