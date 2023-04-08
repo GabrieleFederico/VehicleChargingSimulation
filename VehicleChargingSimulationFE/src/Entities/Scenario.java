@@ -30,11 +30,11 @@ public class Scenario {
 	
 	@Override
 	public String toString() {
-		String string = "Scen-scenario_name:" + _name +","+ "stations:[";
+		String string = "Scen-scenario_name:" + _name +","+ "stations:";
 		for(Station station : _stations) {
 			string += station.toString();
 		}
-		string += "]";
+		string += "";
 		return string;
 	}
 }

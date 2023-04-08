@@ -59,7 +59,6 @@ public class VehicleWidget extends JPanel {
 		gl_contentPane = new GroupLayout(this);
 		setLayout();
 		
-		this.setLayout(gl_contentPane);
 	}
 	
 	private void setLayout() {
@@ -123,6 +122,8 @@ public class VehicleWidget extends JPanel {
 							.addComponent(SOCTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addComponent(desiredChargeTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 			);
+			
+			this.setLayout(gl_contentPane);
 	}
 
 	

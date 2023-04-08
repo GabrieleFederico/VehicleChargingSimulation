@@ -1,6 +1,7 @@
 import threading
 
-from strategies.FCFS import FCFS
+from entities.Vehicle import Vehicle
+from strategies.Strategy import Strategy, FCFS
 from strategies.utils import sortByPriority
 
 
@@ -76,8 +77,19 @@ class Station:
 
     @classmethod
     def parseStation(cls, string):
-        print(string)
-        station = Station("S1", FCFS())
+        firstSplit = string.split(",vehicles:")
+        nameSplit = firstSplit[0].split("station_name:")
+        #print(firstSplit[1])
+        secondSplit = firstSplit[1].split(",station_components:")
+        vehiclesStrings = secondSplit[0].split("V-")
+        print(vehiclesStrings)
+        for vehicleString in vehiclesStrings:
+            if "vehicle_name" in vehicleString:
+                Vehicle.parseVehicle(vehicleString)
+        thirdSplit = secondSplit[1].split(",strategy:")
+        print(thirdSplit)
+        station = Station(nameSplit[1], Strategy.parseStrategy(thirdSplit[1]))
+        print(station.strategy.name)
         return station
 
     def toDict(self):

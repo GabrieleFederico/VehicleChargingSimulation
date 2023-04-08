@@ -16,10 +16,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Controllers.Message;
-import Entities.Battery;
 import Entities.Scenario;
 import Entities.Station;
-import Entities.Vehicle;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -40,8 +38,6 @@ public class MainWindow extends JFrame {
 	private JTabbedPane stationsTabbedPane;
 	//TODO: Do I want this here or in the station widget?
 	private JButton addVehicleButton;
-	//TODO: Do I want this here or in the station widget?
-	private JComboBox<String> strategyDropPanel;
 	private JButton addStationButton;
 	private GroupLayout gl_contentPane;
 
@@ -79,9 +75,6 @@ public class MainWindow extends JFrame {
 		runButton = new JButton("Run");
 
 		stationsTabbedPane = new JTabbedPane(JTabbedPane.TOP);
-
-		strategyDropPanel = new JComboBox<String>();
-		strategyDropPanel.setModel(new DefaultComboBoxModel<String>(new String[] { "FCFS", "EDF", "RR" }));
 
 		addStationButton = new JButton("Add Station");
 		gl_contentPane = new GroupLayout(contentPane);
@@ -131,8 +124,7 @@ public class MainWindow extends JFrame {
 
 	private void addVehicle(JPanel tabPanel) {
 		JPanel widgetPanel = new VehicleWidget();
-		((StationWidget) (stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex()))).AddVehicleWidget((VehicleWidget)widgetPanel);;
-		tabPanel.add(widgetPanel);
+		((StationWidget) (stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex()))).AddVehicleWidget((VehicleWidget)widgetPanel);
 		tabPanel.revalidate();
 		tabPanel.repaint();
 	}
@@ -199,8 +191,7 @@ public class MainWindow extends JFrame {
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 										.addComponent(exportButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
 										.addComponent(runButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-										.addComponent(importButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-										.addComponent(strategyDropPanel, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+										.addComponent(importButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)))
 						.addGroup(gl_contentPane.createSequentialGroup().addGap(6)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addComponent(addStationButton, GroupLayout.PREFERRED_SIZE, 105,
@@ -216,8 +207,6 @@ public class MainWindow extends JFrame {
 						.addGap(18)
 						.addComponent(addVehicleButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
 						.addGap(23)
-						.addComponent(strategyDropPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(ComponentPlacement.RELATED).addComponent(importButton)
 						.addPreferredGap(ComponentPlacement.RELATED).addComponent(exportButton)
 						.addPreferredGap(ComponentPlacement.RELATED).addComponent(runButton))

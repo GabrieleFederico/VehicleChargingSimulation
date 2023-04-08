@@ -14,6 +14,7 @@ public class StationWidget extends JScrollPane {
 
 	private JPanel panel;
 	private ArrayList<VehicleWidget> vehicleWidgets = new ArrayList<>();
+	private StationDetailsWidget stationDetails = new StationDetailsWidget();
 	
 	/**
 	 * Create the panel.
@@ -24,9 +25,11 @@ public class StationWidget extends JScrollPane {
     	this.setViewportView(panel);;
     	this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
     	this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    	panel.add(stationDetails);
 	}
 	
 	public void AddVehicleWidget(VehicleWidget vehicleWidget) {
+		panel.add(vehicleWidget);
 		vehicleWidgets.add(vehicleWidget);
 	}
 	
@@ -35,9 +38,7 @@ public class StationWidget extends JScrollPane {
 	}
 
 	public Station makeStation() {
-		//TODO: this will actually do something once a station is properly defined
-		//and once I add the chance to modify a station from UI
-		return new Station();
+		return stationDetails.makeStation();
 	}
 
 }

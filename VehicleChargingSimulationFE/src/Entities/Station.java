@@ -13,7 +13,7 @@ public class Station {
 	@JsonProperty("components")
 	private HashMap<String, Component> _components = new HashMap<>();
 	@JsonProperty("strategy")
-	private int _strategy;
+	private String _strategy;
 	@JsonProperty("vehicles")
 	private ArrayList<Vehicle> _vehicles = new ArrayList<>();
 	@JsonProperty("max_charge_power")
@@ -41,9 +41,26 @@ public class Station {
 		_vehicles.add(vehicle);
 	}
 	
+	public void SetComponents(HashMap<String, Component> components) {
+		_components = components;
+	}
+
+	public void AddComponent(String key, Component value) {
+		_components.put(key, value);
+		value.SetOwner(this);
+	}
+	
+	public void SetStrategy(String strategy) {
+		_strategy = strategy;
+	}
+	
+	public String GetStrategy() {
+		return _strategy;
+	}
+	
 	@Override
 	public String toString() {
-		String string = "St-station_name:"+ _name +","+ "vehicles:[";
+		String string = "St-station_name:"+ _name +","+ "vehicles:";
 		for(Vehicle vehicle: _vehicles) {
 			string += vehicle.toString();
 			string += ",";
@@ -52,14 +69,15 @@ public class Station {
 		sb.deleteCharAt(sb.length()-1);
 		string = sb.toString();
 		
-		string += "],components:[";
+		string += ",station_components:";
 		for(Map.Entry<String, Component> component: _components.entrySet()) {
 			string += component.getValue().toString();
 			string += ",";
 		}
 		sb = new StringBuffer(string);
 		sb.deleteCharAt(sb.length()-1);
-		string = sb.toString() + "]";
+		string = sb.toString() + ",";
+		string += "strategy:"+ _strategy;
 		return string;
 	}
 }

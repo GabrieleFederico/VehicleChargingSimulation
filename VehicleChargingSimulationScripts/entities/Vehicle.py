@@ -41,6 +41,7 @@ class Vehicle:
 
     @classmethod
     def parseVehicle(cls, string):
+        #print(string)
         pass
 
     def toDict(self):
