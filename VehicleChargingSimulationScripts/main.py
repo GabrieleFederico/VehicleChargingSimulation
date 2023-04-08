@@ -1,5 +1,8 @@
 import sys
 
+from entities.Message import Message
+
+"""
 from tkinter import Tk
 from tkinter import filedialog
 
@@ -86,11 +89,14 @@ class MainWindow(QMainWindow):
             scenario.getStations()[0].addVehicle(vehicle)
         return scenario
 
-
+"""
 if __name__ == "__main__":
-    #parseMessage(sys.argv[1])
+    #print(sys.argv[1])
+    message = Message.parseMessage(sys.argv[1])
+    """
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
 
     sys.exit(app.exec())
+    """

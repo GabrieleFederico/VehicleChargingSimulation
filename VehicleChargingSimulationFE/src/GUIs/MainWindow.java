@@ -168,6 +168,8 @@ public class MainWindow extends JFrame {
 			String fileName = "ChargingSim" + Calendar.getInstance().getTimeInMillis();
 			pb.redirectOutput(
 					new File("../Out/" + fileName + ".txt"));
+			pb.redirectError(
+					new File("../Err/" + fileName + ".txt"));
 			pb.start();
 
 		} catch (IOException e) {

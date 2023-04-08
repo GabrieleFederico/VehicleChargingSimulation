@@ -18,15 +18,16 @@ class Message:
     def parseMessage(cls, string):
         message = Message()
 
-        splitString = string.split(":")
-        versionOperation = splitString[0].split("operation=")
+        splitString = string.split(";")
+        versionOperation = splitString[1].split("operation=")
+
+        versionOperation[1].strip()
+
         if versionOperation[1] == "RUN":
             message.operation = 0
         elif versionOperation[1] == "EXPORT":
             message.operation = 1
         elif versionOperation[1] == "IMPORT":
             message.operation = 2
-
-        message.scenario = Scenario.parseScenario(splitString[1])
-
+        message.scenario = Scenario.parseScenario(splitString[2])
         return message

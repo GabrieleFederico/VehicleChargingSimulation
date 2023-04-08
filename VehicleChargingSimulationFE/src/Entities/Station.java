@@ -52,7 +52,7 @@ public class Station {
 		sb.deleteCharAt(sb.length()-1);
 		string = sb.toString();
 		
-		string += "],\"components\":[";
+		string += "],components:[";
 		for(Map.Entry<String, Component> component: _components.entrySet()) {
 			string += component.getValue().toString();
 			string += ",";

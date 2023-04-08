@@ -1,5 +1,6 @@
 import threading
 
+from strategies.FCFS import FCFS
 from strategies.utils import sortByPriority
 
 
@@ -75,7 +76,8 @@ class Station:
 
     @classmethod
     def parseStation(cls, string):
-        pass
+        station = Station("S1", FCFS())
+        return station
 
     def toDict(self):
         componentsDicts = []
