@@ -78,7 +78,7 @@ public class Vehicle {
 	
 	@Override
 	public String toString() {
-		String string = "V{vehicle_name:"+_name+","+"arrival:"+
+		String string = "V-vehicle_name:"+_name+","+"arrival:"+
 				_arrival+",departure:"+_departure+",desired_charge:"+_desiredCharge+",components:[";
 		for(Map.Entry<String, Component> component: _components.entrySet()) {
 			string += component.getValue().toString();
@@ -86,7 +86,7 @@ public class Vehicle {
 		}
 		StringBuffer sb = new StringBuffer(string);
 		sb.deleteCharAt(sb.length()-1);
-		string = sb.toString()+"]}";
+		string = sb.toString()+"]";
 		return string;
 	}
 	

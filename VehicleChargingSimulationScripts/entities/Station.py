@@ -76,6 +76,7 @@ class Station:
 
     @classmethod
     def parseStation(cls, string):
+        print(string)
         station = Station("S1", FCFS())
         return station
 

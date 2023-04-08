@@ -43,7 +43,7 @@ public class Station {
 	
 	@Override
 	public String toString() {
-		String string = "St{station_name:"+ _name +","+ "vehicles:[";
+		String string = "St-station_name:"+ _name +","+ "vehicles:[";
 		for(Vehicle vehicle: _vehicles) {
 			string += vehicle.toString();
 			string += ",";
@@ -59,7 +59,7 @@ public class Station {
 		}
 		sb = new StringBuffer(string);
 		sb.deleteCharAt(sb.length()-1);
-		string = sb.toString() + "]}";
+		string = sb.toString() + "]";
 		return string;
 	}
 }
