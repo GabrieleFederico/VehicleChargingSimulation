@@ -10,16 +10,14 @@ public class Station {
 	
 	@JsonProperty("station_name")
 	private String _name;
-	@JsonProperty("components")
+	@JsonProperty("station_components")
 	private HashMap<String, Component> _components = new HashMap<>();
 	@JsonProperty("strategy")
 	private String _strategy;
 	@JsonProperty("vehicles")
 	private ArrayList<Vehicle> _vehicles = new ArrayList<>();
-	@JsonProperty("max_charge_power")
-	private int _maxChargePower = 300;
-	@JsonProperty("charging_slots")
-	private int _maximumChargingVehicles = 3;
+//	@JsonProperty("charging_slots")
+//	private int _maximumChargingVehicles = 3;
 	
 	public String GetName() {
 		return _name;
