@@ -27,7 +27,6 @@ class FCFS(Strategy):
 
     def run(self, station):
         sortByArrival(station.vehicles)
-
         for vehicle in station.vehicles:
             while len(station.chargingVehicles) >= station.maximumChargingVehicles:
                 with self.condition:

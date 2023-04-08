@@ -23,6 +23,7 @@ class Station:
         self.vehicles.append(vehicle)
 
     def addComponent(self, component, name):
+        component.owner = self
         self.components[name] = component
 
     def runStrategy(self):
@@ -93,14 +94,13 @@ class Station:
         componentsStrings = thirdSplit[0].split("C-")
         for componentString in componentsStrings:
             if "component_name" in componentString:
-                print("component")
                 component = Component.parseComponent(componentString)
-                station.addComponent(component.name, component)
+                station.addComponent(component, component.name)
         return station
 
     def toDict(self):
         componentsDicts = []
-        for comp in self.components:
+        for compName, comp in self.components.items():
             componentsDicts.append(comp.toDict())
         vehiclesDicts = []
         for vehicle in self.vehicles:

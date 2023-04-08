@@ -1,8 +1,11 @@
 import sys
 
+from entities.Component.Component import Battery
 from entities.Message import Message
+from strategies.Strategy import FCFS
+from strategies.importExportUtils import exportToJson
 
-"""
+
 from tkinter import Tk
 from tkinter import filedialog
 
@@ -13,9 +16,8 @@ from entities.Scenario import Scenario
 from entities.Station import Station
 from entities.Vehicle import Vehicle
 from strategies.EDF import EDF
-from strategies.FCFS import FCFS
 from strategies.RoundRobin import RoundRobin
-from strategies.utils import exportToJson, importFromJson
+from strategies.importExportUtils import exportToJson, importFromJson
 
 
 class VehicleWidget(QWidget):
@@ -82,21 +84,26 @@ class MainWindow(QMainWindow):
                               arrival=int(widget.ui.arrivalTextEdit.toPlainText()),
                               departure=int(widget.ui.departureTextEdit.toPlainText()),
                               desiredCharge=float(widget.ui.desiredChargeTextEdit.toPlainText()))
-            vehicle.getBattery().capacity = float(widget.ui.capacityTextEdit.toPlainText())
-            vehicle.getBattery().chargePower = float(widget.ui.chargePowerTextEdit.toPlainText())
-            vehicle.getBattery().stateOfCharge = float(widget.ui.socTextEdit.toPlainText())
+            battery = Battery(None)
+            battery.capacity = float(widget.ui.capacityTextEdit.toPlainText())
+            battery.chargePower = float(widget.ui.chargePowerTextEdit.toPlainText())
+            battery.stateOfCharge = float(widget.ui.socTextEdit.toPlainText())
 
             scenario.getStations()[0].addVehicle(vehicle)
         return scenario
 
-"""
+
 if __name__ == "__main__":
-    #print(sys.argv[1])
+    """
     message = Message.parseMessage(sys.argv[1])
+    if Message.Operation(message.operation).name == Message.Operation.EXPORT.name:
+        exportToJson(message.scenario)
+    elif Message.Operation(message.operation).name == Message.Operation.RUN.name:
+        message.scenario.runSimulation()
     """
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
 
     sys.exit(app.exec())
-    """
+

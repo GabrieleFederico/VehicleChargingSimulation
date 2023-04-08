@@ -143,11 +143,12 @@ public class MainWindow extends JFrame {
 	}
 
 	private void exportToJSON() throws IOException {
-		File pythonScriptsDir = new File("../Out/test.txt");
-	    BufferedWriter writer = new BufferedWriter(new FileWriter(pythonScriptsDir));
-	    writer.write(parseScenario().toString());
-	    
-	    writer.close();
+		Message message = new Message(Message.Operation.EXPORT, parseScenario());
+		ProcessBuilder pb = new ProcessBuilder();
+		File pythonScriptsDir = new File("../VehicleChargingSimulationScripts");
+		pb.directory(pythonScriptsDir);
+		pb.command("py", "main.py", message.toString());
+		pb.start();
 	}
 
 	private void runSimulation() {

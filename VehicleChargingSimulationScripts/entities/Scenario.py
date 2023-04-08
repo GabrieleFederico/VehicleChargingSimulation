@@ -27,7 +27,6 @@ class Scenario:
 
     @classmethod
     def parseScenario(cls, string):
-        #TODO: divide only the scenario attributes
         scenarioSplitString = string.split("Scen-")
         scenarioSplitString = scenarioSplitString[1].split("scenario_name:")
         scenarioSplitString = scenarioSplitString[1].split(",stations")

@@ -5,8 +5,13 @@ class Component:
 
     @classmethod
     def parseComponent(cls, string):
-        print("string")
-        pass
+        attributes = string.split(",")
+        name = attributes[0].split(":")[1]
+        if name == "Battery":
+            battery = Battery.parseBattery(attributes)
+            return battery
+
+        return
 
     def toDict(self):
         pass
@@ -39,11 +44,15 @@ class Battery(Component):
         return self.stateOfCharge
 
     @classmethod
-    def parseComponent(cls, string):
-        pass
+    def parseBattery(cls, string):
+        battery = Battery(owner=None)
+        battery.capacity = float(string[1].split(":")[1])
+        battery.chargePower = float(string[2].split(":")[1])
+        battery.stateOfCharge = float(string[3].split(":")[1])
+        return battery
 
     def toDict(self):
-        return {"component_name": "battery", "capacity": self.capacity, "charge_power": self.chargePower,
+        return {"component_name": "Battery", "capacity": self.capacity, "charge_power": self.chargePower,
                 "state_of_charge": self.stateOfCharge}
 
 
