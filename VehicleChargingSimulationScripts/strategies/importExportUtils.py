@@ -1,5 +1,6 @@
 import csv
 import json
+import time
 
 from entities.Scenario import Scenario
 
@@ -15,7 +16,7 @@ def exportToCsvScenarioResult():
 
 def exportToJson(scenario: Scenario):
     jsonObject = json.dumps(scenario.toDict(), indent=4, )
-    with open("JSONFiles/scenario.json", "w") as out:
+    with open("JSONFiles/scenario"+str(round(time.time()*1000))+".json", "w") as out:
         out.write(jsonObject)
     return
 
