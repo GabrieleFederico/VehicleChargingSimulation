@@ -19,17 +19,3 @@ def exportToJson(scenario: Scenario):
     with open("JSONFiles/scenario"+str(round(time.time()*1000))+".json", "w") as out:
         out.write(jsonObject)
     return
-
-
-def importFromJson(jsonFile):
-    scenario = Scenario("Scenario 1")
-    # scenario = json.loads(jsonFile.read(), object_hook=customScenarioDecoder)
-    print(scenario)
-    """
-    for vehicle in vehicles:
-        vehiclesList.append(vehicle.toDict())
-    jsonObject = json.dumps(vehiclesList, indent=4, )
-    with open("JSONFiles/vehicles.json", "w") as out:
-        out.write(jsonObject)
-    """
-    return scenario

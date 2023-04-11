@@ -42,6 +42,10 @@ public class Station {
 	public void SetComponents(HashMap<String, Component> components) {
 		_components = components;
 	}
+	
+	public Map<String, Component> GetComponents() {
+		return _components;
+	}
 
 	public void AddComponent(String key, Component value) {
 		_components.put(key, value);

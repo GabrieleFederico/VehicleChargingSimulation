@@ -28,6 +28,7 @@ public class StationDetailsWidget extends JPanel {
 
 	private GroupLayout gl_contentPane;
 	private JTextField maxVehiclesTextField;
+	private JLabel maxVehiclesLabel;
 	
 	/**
 	 * Create the frame.
@@ -46,6 +47,9 @@ public class StationDetailsWidget extends JPanel {
 		SOCLabel = new JLabel("SOC");
 		SOCTextField = new JTextField();
 		SOCTextField.setColumns(10);
+		maxVehiclesTextField = new JTextField();
+		maxVehiclesTextField.setColumns(10);
+		maxVehiclesLabel = new JLabel("MAX Vehicles");
 		
 		strategyDropPanel = new JComboBox<>();
 		strategyDropPanel.setModel(new DefaultComboBoxModel<String>(new String[] { "FCFS", "EDF", "RR" }));
@@ -58,10 +62,6 @@ public class StationDetailsWidget extends JPanel {
 	
 	private void setLayout() {
 		
-		maxVehiclesTextField = new JTextField();
-		maxVehiclesTextField.setColumns(10);
-		
-		JLabel maxVehiclesLabel = new JLabel("MAX Vehicles");
 		gl_contentPane = new GroupLayout(this);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -134,6 +134,33 @@ public class StationDetailsWidget extends JPanel {
 		this.setLayout(gl_contentPane);
 	}
 	
+	public void SetName(String name) {
+		nameTextField.setText(name);
+	}
+	
+	public void SetCapacity(float capacity) {
+		capacityTextField.setText(Float.toString(capacity));
+	}
+
+	public void SetSOC(float SOC) {
+		SOCTextField.setText(Float.toString(SOC));
+	}
+	
+	public void SetChargePower(float chargePower) {
+		chargePowerTextField.setText(Float.toString(chargePower));
+	}
+	
+	public void SetStrategy(String strategy) {
+		for(int i = 0; i < strategyDropPanel.getItemCount(); i++) {
+			if(strategyDropPanel.getItemAt(i).equals(strategy))
+				strategyDropPanel.setSelectedIndex(i);
+		}
+	}
+	
+	public void SetMaxVehicles(int maximumChargingVehicles) {
+		maxVehiclesTextField.setText(Integer.toString(maximumChargingVehicles));		
+	}
+	
 	public Station makeStation() {
 		Station station = new Station();
 		station.AddComponent("Battery", makeBattery());
@@ -148,5 +175,6 @@ public class StationDetailsWidget extends JPanel {
 				Float.parseFloat(capacityTextField.getText()), Float.parseFloat(chargePowerTextField.getText()));
 		return battery;
 	}
+
 }
 

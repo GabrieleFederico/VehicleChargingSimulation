@@ -15,7 +15,7 @@ public class Vehicle {
 	@JsonProperty("departure")
 	private int _departure;
 	@JsonProperty("desired_charge")
-	private int _desiredCharge = 80;
+	private float _desiredCharge = 80;
 	@JsonProperty("vehicle_components")
 	private HashMap<String, Component> _components = new HashMap<>();
 	
@@ -24,7 +24,7 @@ public class Vehicle {
 		
 	}
 	
-	public Vehicle(String name, int arrival, int departure, int desiredCharge) {
+	public Vehicle(String name, int arrival, int departure, float desiredCharge) {
 		_name = name;
 		_arrival = arrival;
 		_departure = departure;
@@ -39,7 +39,7 @@ public class Vehicle {
 		_name = name;
 	}
 
-	public HashMap<String, Component> GetComponents() {
+	public Map<String, Component> GetComponents() {
 		return _components;
 	}
 
@@ -69,11 +69,11 @@ public class Vehicle {
 	}
 
 
-	public int GetDesiredCharge() {
+	public float GetDesiredCharge() {
 		return _desiredCharge;
 	}
 
-	public void SetDesiredCharge(int desiredCharge) {
+	public void SetDesiredCharge(float desiredCharge) {
 		_desiredCharge = desiredCharge;
 	}
 	

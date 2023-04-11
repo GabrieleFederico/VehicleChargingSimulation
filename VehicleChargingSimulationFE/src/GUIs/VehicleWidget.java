@@ -27,7 +27,7 @@ public class VehicleWidget extends JPanel {
 	private JLabel desiredChargeLabel;
 	private JTextField desiredChargeTextField;
 
-	GroupLayout gl_contentPane;
+	private GroupLayout gl_contentPane;
 	
 	/**
 	 * Create the frame.
@@ -127,18 +127,45 @@ public class VehicleWidget extends JPanel {
 			this.setLayout(gl_contentPane);
 	}
 
+	public void SetName(String name) {
+		nameTextField.setText(name);
+	}
+	
+	public void SetArrival(int arrival) {
+		arrivalTextField.setText(Integer.toString(arrival));
+	}
+	
+	public void SetDeparture(int departure) {
+		departureTextField.setText(Integer.toString(departure));
+	}
+	
+	public void SetCapacity(float capacity) {
+		capacityTextField.setText(Float.toString(capacity));
+	}
+	
+	public void SetSOC(float SOC) {
+		SOCTextField.setText(Float.toString(SOC));
+	}
+	
+	public void SetChargePower(float chargePower) {
+		chargePowerTextField.setText(Float.toString(chargePower));
+	}
+	
+	public void SetDesiredCharge(float desiredCharge) {
+		desiredChargeTextField.setText(Float.toString(desiredCharge));
+	}
 	
 	public Vehicle makeVehicle() {
 		Vehicle vehicle =  new Vehicle(nameTextField.getText(),
 				Integer.parseInt(arrivalTextField.getText()), Integer.parseInt(departureTextField.getText()),
-				Integer.parseInt(desiredChargeTextField.getText()));
+				Float.parseFloat(desiredChargeTextField.getText()));
 		vehicle.AddComponent("Battery", makeBattery());
 		return vehicle;
 	}
 	
 	private Battery makeBattery() {
-		Battery battery = new Battery(Integer.parseInt(SOCTextField.getText()),
-				Integer.parseInt(capacityTextField.getText()), Integer.parseInt(chargePowerTextField.getText()));
+		Battery battery = new Battery(Float.parseFloat(SOCTextField.getText()),
+				Float.parseFloat(capacityTextField.getText()), Float.parseFloat(chargePowerTextField.getText()));
 		return battery;
 	}
 	

@@ -53,7 +53,7 @@ class Vehicle:
         vehicle.name = attributes[0].split(":")[1]
         vehicle.arrival = int(attributes[1].split(":")[1])
         vehicle.departure = int(attributes[2].split(":")[1])
-        vehicle.desiredCharge = int(attributes[3].split(":")[1])
+        vehicle.desiredCharge = float(attributes[3].split(":")[1])
 
         return vehicle
 

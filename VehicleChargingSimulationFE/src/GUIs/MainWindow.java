@@ -121,17 +121,19 @@ public class MainWindow extends JFrame {
 		setContentPane(contentPane);
 	}
 
-	private void addStation(JTabbedPane tabbedPane) {
+	private JScrollPane addStation(JTabbedPane tabbedPane) {
 		JScrollPane station = new StationWidget();
 		stationWidgets.add((StationWidget) station);
 		tabbedPane.addTab("Station " + (tabbedPane.getTabCount() + 1), station);
+		return station;
 	}
 
-	private void addVehicle(JPanel tabPanel) {
+	private JPanel addVehicle(JPanel tabPanel) {
 		JPanel widgetPanel = new VehicleWidget();
 		((StationWidget) (stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex()))).AddVehicleWidget((VehicleWidget)widgetPanel);
 		tabPanel.revalidate();
 		tabPanel.repaint();
+		return widgetPanel;
 	}
 
 	private void importFromJSON() {
@@ -185,8 +187,9 @@ public class MainWindow extends JFrame {
 					scenario.AddStation(station);
 				}
 			}
-			System.out.println(scenario.toString());
 			makeUi(scenario);
+			revalidate();
+			repaint();
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -196,11 +199,40 @@ public class MainWindow extends JFrame {
 
 	private void makeUi(Scenario scenario) {
 		ArrayList<Station> stations = scenario.GetStations();
+		stationsTabbedPane.removeAll();
 		for(int i = 0; i < stations.size(); i++) {
-			if(stationsTabbedPane.getTabCount() < i+1) {
-				addStation(stationsTabbedPane);
+			if(stationsTabbedPane.getTabCount() <= i+1) {
+				StationWidget addedWidget;
+				//if(i != 0)
+					addedWidget = (StationWidget) addStation(stationsTabbedPane);
+				//else
+					//addedWidget = (StationWidget)stationsTabbedPane.getSelectedComponent();
+				StationDetailsWidget stationDetails = addedWidget.stationDetails;
+				stationDetails.SetCapacity(
+						((Battery)stations.get(i).GetComponents().get("Battery")).GetCapacity());
+				stationDetails.SetChargePower(
+						((Battery)stations.get(i).GetComponents().get("Battery")).GetChargePower());
+				stationDetails.SetSOC(
+						((Battery)stations.get(i).GetComponents().get("Battery")).GetSOC());
+				stationDetails.SetName(stations.get(i).GetName());
+				stationDetails.SetStrategy(stations.get(i).GetStrategy());
+				stationDetails.SetMaxVehicles(stations.get(i).GetMaximumChargingVehicles());
+				
+				for(Vehicle vehicle : stations.get(i).GetVehicles()) {
+					VehicleWidget vehicleWidget = (VehicleWidget) addVehicle((JPanel) ((JScrollPane) stationsTabbedPane.getComponentAt(i)).getViewport()
+							.getView());
+					vehicleWidget.SetName(vehicle.GetName());
+					vehicleWidget.SetArrival(vehicle.GetArrival());
+					vehicleWidget.SetDeparture(vehicle.GetDeparture());
+					vehicleWidget.SetCapacity(
+							((Battery)vehicle.GetComponents().get("Battery")).GetCapacity());
+					vehicleWidget.SetSOC(
+							((Battery)vehicle.GetComponents().get("Battery")).GetSOC());
+					vehicleWidget.SetChargePower(
+							((Battery)vehicle.GetComponents().get("Battery")).GetChargePower());
+					vehicleWidget.SetDesiredCharge(vehicle.GetDesiredCharge());
+				}
 			}
-			//if(()stationsTabbedPane)
 		}
 		
 	}
