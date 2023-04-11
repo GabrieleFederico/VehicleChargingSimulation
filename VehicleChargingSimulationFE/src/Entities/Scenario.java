@@ -1,6 +1,8 @@
 package Entities;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -19,14 +21,23 @@ public class Scenario {
 		_stations.add(newStation);
 	}
 	
-	@JsonProperty("name")
 	public void SetName(String newName) {
 		_name = newName;
 	}
-	@JsonProperty("name")
-	public String GetName() {
-		return _name;
+
+	public List<Station> GetName() {
+		return _stations;
 	}
+	
+	public void SetStations(ArrayList<Station> newStations) {
+		_stations = newStations;
+	}
+
+	public ArrayList<Station> GetStations() {
+		return _stations;
+	}
+	
+	
 	
 	@Override
 	public String toString() {

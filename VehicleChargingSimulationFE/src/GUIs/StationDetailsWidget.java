@@ -128,7 +128,7 @@ public class StationDetailsWidget extends JPanel {
 								.addComponent(chargePowerLabel)
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(chargePowerTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addGap(186))
+					.addGap(50))
 		);
 		
 		this.setLayout(gl_contentPane);

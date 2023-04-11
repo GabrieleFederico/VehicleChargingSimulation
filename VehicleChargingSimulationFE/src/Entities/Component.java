@@ -14,6 +14,10 @@ public abstract class Component {
 		_name = name;
 		_owner = owner;
 	}
+	
+	public String GetName() {
+		return _name;
+	}
 
 	void SetOwner(Object owner) {
 		_owner = owner;

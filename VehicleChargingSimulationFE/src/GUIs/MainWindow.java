@@ -13,11 +13,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 import Controllers.Message;
+import Entities.Battery;
+import Entities.Component;
 import Entities.Scenario;
 import Entities.Station;
+import Entities.Vehicle;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -132,15 +137,72 @@ public class MainWindow extends JFrame {
 	private void importFromJSON() {
 		ObjectMapper om = new ObjectMapper();
 		try {
-			Scenario scenario;
-			om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-			scenario = om.readValue(new File("../VehicleChargingSimulationScripts/JSONFiles/scenario.json"), Scenario.class);
-			scenario.AddStation(new Station());
+			JsonNode scenarioNode = om.readTree(new File("../VehicleChargingSimulationScripts/JSONFiles/scenario.json"));
+			Scenario scenario = new Scenario();
+			scenario.SetName(scenarioNode.get("scenario_name").textValue());
+			JsonNode stationsNode = scenarioNode.get("stations");
+			JsonNodeType stationsNodeType = stationsNode.getNodeType();
+			if(stationsNodeType == JsonNodeType.ARRAY) {
+				for(JsonNode stationNode : stationsNode) {
+					Station station = new Station();
+					station.SetName(stationNode.get("station_name").textValue());
+					station.SetStrategy(stationNode.get("strategy").textValue());
+					station.SetMaximumChargingVehicles(stationNode.get("max_vehicles").asInt());
+					JsonNode vehiclesNode = stationNode.get("vehicles");
+					JsonNodeType vehiclesNodeType = vehiclesNode.getNodeType();
+					if(vehiclesNodeType == JsonNodeType.ARRAY) {
+						for(JsonNode vehicleNode : vehiclesNode) {
+							Vehicle vehicle = new Vehicle();
+							vehicle.SetName(vehicleNode.get("vehicle_name").textValue());
+							vehicle.SetArrival(vehicleNode.get("arrival").asInt());
+							vehicle.SetDeparture(vehicleNode.get("departure").asInt());
+							vehicle.SetDesiredCharge(vehicleNode.get("desired_charge").asInt());
+							JsonNode vehicleComponentsNode = vehicleNode.get("vehicle_components");
+							JsonNodeType vehicleComponentsNodeType = vehicleComponentsNode.getNodeType();
+							if(vehicleComponentsNodeType == JsonNodeType.ARRAY) {
+								for(JsonNode vehicleComponentNode : vehicleComponentsNode) {
+									Battery component = new Battery();
+									component.SetCapacity(vehicleComponentNode.get("capacity").floatValue());
+									component.SetChargePower(vehicleComponentNode.get("charge_power").floatValue());
+									component.SetSOC(vehicleComponentNode.get("state_of_charge").asInt());
+									vehicle.AddComponent(component.GetName(), component);
+								}
+							}
+							station.AddVehicle(vehicle);
+						}
+					}
+					JsonNode stationsComponentsNode = stationNode.get("station_components");
+					JsonNodeType stationComponentsNodeType = stationsComponentsNode.getNodeType();
+					if(stationComponentsNodeType == JsonNodeType.ARRAY) {
+						for(JsonNode stationsComponentNode : stationsComponentsNode) {
+							Battery component = new Battery();
+							component.SetCapacity(stationsComponentNode.get("capacity").floatValue());
+							component.SetChargePower(stationsComponentNode.get("charge_power").floatValue());
+							component.SetSOC(stationsComponentNode.get("state_of_charge").asInt());
+							station.AddComponent(component.GetName(), component);
+						}
+					}
+					scenario.AddStation(station);
+				}
+			}
 			System.out.println(scenario.toString());
+			makeUi(scenario);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void makeUi(Scenario scenario) {
+		ArrayList<Station> stations = scenario.GetStations();
+		for(int i = 0; i < stations.size(); i++) {
+			if(stationsTabbedPane.getTabCount() < i+1) {
+				addStation(stationsTabbedPane);
+			}
+			//if(()stationsTabbedPane)
+		}
+		
 	}
 
 	private void exportToJSON() throws IOException {

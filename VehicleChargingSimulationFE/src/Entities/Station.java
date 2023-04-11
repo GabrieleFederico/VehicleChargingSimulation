@@ -87,5 +87,6 @@ public class Station {
 		string += "maximum_charging_vehicles:" + _maximumChargingVehicles;
 		return string;
 	}
+	
 
 }
