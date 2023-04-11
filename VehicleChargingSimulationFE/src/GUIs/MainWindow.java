@@ -203,10 +203,7 @@ public class MainWindow extends JFrame {
 		for(int i = 0; i < stations.size(); i++) {
 			if(stationsTabbedPane.getTabCount() <= i+1) {
 				StationWidget addedWidget;
-				//if(i != 0)
-					addedWidget = (StationWidget) addStation(stationsTabbedPane);
-				//else
-					//addedWidget = (StationWidget)stationsTabbedPane.getSelectedComponent();
+				addedWidget = (StationWidget) addStation(stationsTabbedPane);
 				StationDetailsWidget stationDetails = addedWidget.stationDetails;
 				stationDetails.SetCapacity(
 						((Battery)stations.get(i).GetComponents().get("Battery")).GetCapacity());
