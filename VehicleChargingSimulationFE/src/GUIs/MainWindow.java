@@ -136,6 +136,7 @@ public class MainWindow extends JFrame {
 			om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			scenario = om.readValue(new File("../VehicleChargingSimulationScripts/JSONFiles/scenario.json"), Scenario.class);
 			scenario.AddStation(new Station());
+			System.out.println(scenario.toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,6 +149,9 @@ public class MainWindow extends JFrame {
 		File pythonScriptsDir = new File("../VehicleChargingSimulationScripts");
 		pb.directory(pythonScriptsDir);
 		pb.command("py", "main.py", message.toString());
+		String fileName = "ChargingSim" + Calendar.getInstance().getTimeInMillis();
+		pb.redirectOutput(
+				new File("../Out/" + fileName + ".txt"));
 		pb.start();
 	}
 

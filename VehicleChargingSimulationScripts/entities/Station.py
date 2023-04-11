@@ -87,7 +87,9 @@ class Station:
         secondSplit = firstSplit[1].split(",station_components:")
         vehiclesStrings = secondSplit[0].split("V-")
         thirdSplit = secondSplit[1].split(",strategy:")
-        station = Station(nameSplit[1], Strategy.parseStrategy(thirdSplit[1]))
+        attributes = thirdSplit[1].split(",")
+        station = Station(nameSplit[1], Strategy.parseStrategy(attributes[0]))
+        station.maximumChargingVehicles = int(attributes[1].split(":")[1])
         for vehicleString in vehiclesStrings:
             if "vehicle_name" in vehicleString:
                 station.addVehicle(Vehicle.parseVehicle(vehicleString))
@@ -105,7 +107,8 @@ class Station:
         vehiclesDicts = []
         for vehicle in self.vehicles:
             vehiclesDicts.append(vehicle.toDict())
-        return {"station_name": self.name, "vehicles": vehiclesDicts, "station_components": componentsDicts, "strategy": self.strategy.name}
+        return {"station_name": self.name, "vehicles": vehiclesDicts, "station_components": componentsDicts,
+                "max_vehicles": self.maximumChargingVehicles, "strategy": self.strategy.name}
 
     # TODO: Should these 3 methods be here or in a Result class? Or maybe in the Scenario class?
     # Or maybe in the result class which should be an attribute of Scenario?

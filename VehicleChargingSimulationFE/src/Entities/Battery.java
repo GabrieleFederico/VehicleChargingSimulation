@@ -1,12 +1,15 @@
 package Entities;
 
-import java.util.Map;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 public class Battery extends Component {
 
-	private int _sOC = 20;
-	private int _capacity = 70;
-	private int _chargePower = 200;
+	@JsonProperty("capacity")
+	private float _capacity = 70;	
+	@JsonProperty("charge_power")
+	private float _chargePower = 200;
+	@JsonProperty("state_of_charge")
+	private float _sOC = 20;
 	
 	public Battery() {
 		super("Battery");
@@ -16,14 +19,14 @@ public class Battery extends Component {
 		super("Battery", owner);
 	}
 	
-	public Battery(int SOC, int capacity, int chargePower) {
+	public Battery(float SOC, float capacity, float chargePower) {
 		super("Battery");
 		_sOC = SOC;
 		_capacity = capacity;
 		_chargePower = chargePower;
 	}
 
-	public int GetSOC() {
+	public float GetSOC() {
 		return _sOC;
 	}
 
@@ -31,19 +34,19 @@ public class Battery extends Component {
 		this._sOC = _sOC;
 	}
 
-	public int GetCapacity() {
+	public float GetCapacity() {
 		return _capacity;
 	}
 
-	public void SetCapacity(int _capacity) {
+	public void SetCapacity(float _capacity) {
 		this._capacity = _capacity;
 	}
 
-	public int GetChargePower() {
+	public float GetChargePower() {
 		return _chargePower;
 	}
 
-	public void SetChargePower(int _chargePower) {
+	public void SetChargePower(float _chargePower) {
 		this._chargePower = _chargePower;
 	}
 	

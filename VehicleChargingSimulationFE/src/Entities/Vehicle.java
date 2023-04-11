@@ -10,14 +10,15 @@ public class Vehicle {
 
 	@JsonProperty("vehicle_name")
 	private String _name;
-	@JsonProperty("components")
-	private HashMap<String, Component> _components = new HashMap<>();
 	@JsonProperty("arrival")
 	private int _arrival;
 	@JsonProperty("departure")
 	private int _departure;
 	@JsonProperty("desired_charge")
 	private int _desiredCharge = 80;
+	@JsonProperty("vehicle_components")
+	private HashMap<String, Component> _components = new HashMap<>();
+	
 	
 	public Vehicle() {
 		
