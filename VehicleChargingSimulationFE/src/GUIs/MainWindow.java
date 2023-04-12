@@ -31,6 +31,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTabbedPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
 
 public class MainWindow extends JFrame {
@@ -92,8 +93,7 @@ public class MainWindow extends JFrame {
 		addVehicleButton.addActionListener(e -> {
 			int selectedIndex = stationsTabbedPane.getSelectedIndex();
 			if (selectedIndex != -1) {
-				addVehicle((JPanel) ((JScrollPane) stationsTabbedPane.getComponentAt(selectedIndex)).getViewport()
-						.getView());
+				addVehicle((JScrollPane) stationsTabbedPane.getComponentAt(selectedIndex));
 			}
 		});
 
@@ -109,7 +109,6 @@ public class MainWindow extends JFrame {
 			try {
 				exportToJSON();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
@@ -128,18 +127,23 @@ public class MainWindow extends JFrame {
 		return station;
 	}
 
-	private JPanel addVehicle(JPanel tabPanel) {
+	private JPanel addVehicle(JScrollPane tabPanel) {
 		JPanel widgetPanel = new VehicleWidget();
-		((StationWidget) (stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex()))).AddVehicleWidget((VehicleWidget)widgetPanel);
+		((StationWidget) (tabPanel)).AddVehicleWidget((VehicleWidget)widgetPanel);
 		tabPanel.revalidate();
 		tabPanel.repaint();
 		return widgetPanel;
 	}
 
 	private void importFromJSON() {
+		
+		JFileChooser jfc = new JFileChooser();
+	    jfc.showDialog(null,"Please Select the File");
+	    jfc.setVisible(true);
+	    File filename = jfc.getSelectedFile();
 		ObjectMapper om = new ObjectMapper();
 		try {
-			JsonNode scenarioNode = om.readTree(new File("../VehicleChargingSimulationScripts/JSONFiles/scenario.json"));
+			JsonNode scenarioNode = om.readTree(filename);
 			Scenario scenario = new Scenario();
 			scenario.SetName(scenarioNode.get("scenario_name").textValue());
 			JsonNode stationsNode = scenarioNode.get("stations");
@@ -201,34 +205,31 @@ public class MainWindow extends JFrame {
 		ArrayList<Station> stations = scenario.GetStations();
 		stationsTabbedPane.removeAll();
 		for(int i = 0; i < stations.size(); i++) {
-			if(stationsTabbedPane.getTabCount() <= i+1) {
-				StationWidget addedWidget;
-				addedWidget = (StationWidget) addStation(stationsTabbedPane);
-				StationDetailsWidget stationDetails = addedWidget.stationDetails;
-				stationDetails.SetCapacity(
-						((Battery)stations.get(i).GetComponents().get("Battery")).GetCapacity());
-				stationDetails.SetChargePower(
-						((Battery)stations.get(i).GetComponents().get("Battery")).GetChargePower());
-				stationDetails.SetSOC(
-						((Battery)stations.get(i).GetComponents().get("Battery")).GetSOC());
-				stationDetails.SetName(stations.get(i).GetName());
-				stationDetails.SetStrategy(stations.get(i).GetStrategy());
-				stationDetails.SetMaxVehicles(stations.get(i).GetMaximumChargingVehicles());
-				
-				for(Vehicle vehicle : stations.get(i).GetVehicles()) {
-					VehicleWidget vehicleWidget = (VehicleWidget) addVehicle((JPanel) ((JScrollPane) stationsTabbedPane.getComponentAt(i)).getViewport()
-							.getView());
-					vehicleWidget.SetName(vehicle.GetName());
-					vehicleWidget.SetArrival(vehicle.GetArrival());
-					vehicleWidget.SetDeparture(vehicle.GetDeparture());
-					vehicleWidget.SetCapacity(
-							((Battery)vehicle.GetComponents().get("Battery")).GetCapacity());
-					vehicleWidget.SetSOC(
-							((Battery)vehicle.GetComponents().get("Battery")).GetSOC());
-					vehicleWidget.SetChargePower(
-							((Battery)vehicle.GetComponents().get("Battery")).GetChargePower());
-					vehicleWidget.SetDesiredCharge(vehicle.GetDesiredCharge());
-				}
+			StationWidget addedWidget;
+			addedWidget = (StationWidget) addStation(stationsTabbedPane);
+			StationDetailsWidget stationDetails = addedWidget.stationDetails;
+			stationDetails.SetCapacity(
+					((Battery)stations.get(i).GetComponents().get("Battery")).GetCapacity());
+			stationDetails.SetChargePower(
+					((Battery)stations.get(i).GetComponents().get("Battery")).GetChargePower());
+			stationDetails.SetSOC(
+					((Battery)stations.get(i).GetComponents().get("Battery")).GetSOC());
+			stationDetails.SetName(stations.get(i).GetName());
+			stationDetails.SetStrategy(stations.get(i).GetStrategy());
+			stationDetails.SetMaxVehicles(stations.get(i).GetMaximumChargingVehicles());
+			
+			for(Vehicle vehicle : stations.get(i).GetVehicles()) {
+				VehicleWidget vehicleWidget = (VehicleWidget) addVehicle((JScrollPane) stationsTabbedPane.getComponentAt(i));
+				vehicleWidget.SetName(vehicle.GetName());
+				vehicleWidget.SetArrival(vehicle.GetArrival());
+				vehicleWidget.SetDeparture(vehicle.GetDeparture());
+				vehicleWidget.SetCapacity(
+						((Battery)vehicle.GetComponents().get("Battery")).GetCapacity());
+				vehicleWidget.SetSOC(
+						((Battery)vehicle.GetComponents().get("Battery")).GetSOC());
+				vehicleWidget.SetChargePower(
+						((Battery)vehicle.GetComponents().get("Battery")).GetChargePower());
+				vehicleWidget.SetDesiredCharge(vehicle.GetDesiredCharge());
 			}
 		}
 		
@@ -268,7 +269,7 @@ public class MainWindow extends JFrame {
 	private Scenario parseScenario() {
 		Scenario scenario = new Scenario();
 		for(int i = 0; i < stationsTabbedPane.getTabCount(); i++) {
-			StationWidget stationWidget = ((StationWidget) (stationsTabbedPane.getComponentAt(stationsTabbedPane.getSelectedIndex())));
+			StationWidget stationWidget = ((StationWidget) (stationsTabbedPane.getComponentAt(i)));
 			Station station = stationWidget.makeStation();
 			for(VehicleWidget vehicleWidget : stationWidget.GetVehicleWidgets()) {
 				station.AddVehicle(vehicleWidget.makeVehicle());
