@@ -1,9 +1,7 @@
 package GUIs;
 
 import java.awt.EventQueue;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,14 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 import Controllers.Message;
 import Entities.Battery;
-import Entities.Component;
 import Entities.Scenario;
 import Entities.Station;
 import Entities.Vehicle;
@@ -30,9 +26,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTabbedPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.DefaultComboBoxModel;
 
 public class MainWindow extends JFrame {
 
@@ -42,7 +36,6 @@ public class MainWindow extends JFrame {
 	private JButton exportButton;
 	private JButton runButton;
 	private JTabbedPane stationsTabbedPane;
-	//TODO: Do I want this here or in the station widget?
 	private JButton addVehicleButton;
 	private JButton addStationButton;
 	private GroupLayout gl_contentPane;
@@ -114,7 +107,11 @@ public class MainWindow extends JFrame {
 		});
 
 		runButton.addActionListener(e -> {
-			runSimulation();
+			try {
+				runSimulation();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		});
 
 		setContentPane(contentPane);
@@ -242,28 +239,22 @@ public class MainWindow extends JFrame {
 		pb.directory(pythonScriptsDir);
 		pb.command("py", "main.py", message.toString());
 		String fileName = "ChargingSim" + Calendar.getInstance().getTimeInMillis();
-		pb.redirectOutput(
-				new File("../Out/" + fileName + ".txt"));
+		pb.redirectOutput(new File("../Out/" + fileName + ".txt"));
+		pb.redirectError(new File("../Err/" + fileName + ".txt"));
 		pb.start();
 	}
 
-	private void runSimulation() {
+	private void runSimulation() throws IOException {
 		Message message = new Message(Message.Operation.RUN, parseScenario());
 		ProcessBuilder pb = new ProcessBuilder();
 		File pythonScriptsDir = new File("../VehicleChargingSimulationScripts");
 		pb.directory(pythonScriptsDir);
 		pb.command("py", "main.py", message.toString());
-		try {
-			String fileName = "ChargingSim" + Calendar.getInstance().getTimeInMillis();
-			pb.redirectOutput(
-					new File("../Out/" + fileName + ".txt"));
-			pb.redirectError(
-					new File("../Err/" + fileName + ".txt"));
-			pb.start();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String fileName = "ChargingSim" + Calendar.getInstance().getTimeInMillis();
+		pb.redirectOutput(new File("../Out/" + fileName + ".txt"));
+		pb.redirectError(new File("../Err/" + fileName + ".txt"));
+		pb.start();
+		
 	}
 
 	private Scenario parseScenario() {
