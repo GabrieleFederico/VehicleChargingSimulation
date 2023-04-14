@@ -4,5 +4,3 @@ def sortByArrival(vehicles):
 
 def sortByPriority(vehicles):
     vehicles.sort(key=lambda vehicle: vehicle.priority, reverse=False)
-
-
