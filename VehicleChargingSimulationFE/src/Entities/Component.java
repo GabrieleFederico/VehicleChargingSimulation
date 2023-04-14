@@ -2,6 +2,8 @@ package Entities;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 public abstract class Component {
 	
 	@JsonProperty("component_name")
@@ -26,5 +28,17 @@ public abstract class Component {
 	Object GetOwner() {
 		return _owner;
 	}
+	
+	public static Component DeserializeComponent(JsonNode componentNode) {
+		Component component = null;
+		switch(componentNode.get("component_name").textValue()) {
+		case "Battery":
+			component = Battery.DeserializeComponent(componentNode);
+			break;
+		}
+		return component;
+	}
+
+	
 	
 }

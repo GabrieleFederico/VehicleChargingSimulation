@@ -2,10 +2,12 @@ package Entities;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class Battery extends Component {
 
 	@JsonProperty("capacity")
-	private float _capacity = 70;	
+	private float _capacity = 70;
 	@JsonProperty("charge_power")
 	private float _chargePower = 200;
 	@JsonProperty("state_of_charge")
@@ -30,26 +32,33 @@ public class Battery extends Component {
 		return _sOC;
 	}
 
-	public void SetSOC(int _sOC) {
-		this._sOC = _sOC;
+	public void SetSOC(int sOC) {
+		this._sOC = sOC;
 	}
 
 	public float GetCapacity() {
 		return _capacity;
 	}
 
-	public void SetCapacity(float _capacity) {
-		this._capacity = _capacity;
+	public void SetCapacity(float capacity) {
+		this._capacity = capacity;
 	}
 
 	public float GetChargePower() {
 		return _chargePower;
 	}
 
-	public void SetChargePower(float _chargePower) {
-		this._chargePower = _chargePower;
+	public void SetChargePower(float chargePower) {
+		this._chargePower = chargePower;
 	}
 	
+	public static Component DeserializeComponent(JsonNode batteryNode) {
+		Battery battery = new Battery();
+		battery.SetCapacity(batteryNode.get("capacity").floatValue());
+		battery.SetChargePower(batteryNode.get("charge_power").floatValue());
+		battery.SetSOC(batteryNode.get("state_of_charge").asInt());
+		return battery;
+	}
 	
 	@Override
 	public String toString() {

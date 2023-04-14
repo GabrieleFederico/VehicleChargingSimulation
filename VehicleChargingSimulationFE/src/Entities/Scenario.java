@@ -2,9 +2,11 @@ package Entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 public class Scenario {
 	
@@ -37,6 +39,19 @@ public class Scenario {
 		return _stations;
 	}
 	
+	public static Scenario DeserializeScenario(JsonNode scenarioNode) {
+		Scenario scenario = new Scenario();
+		scenario.SetName(scenarioNode.get("scenario_name").textValue());
+		JsonNode stationsNode = scenarioNode.get("stations");
+		JsonNodeType stationsNodeType = stationsNode.getNodeType();
+		if(stationsNodeType == JsonNodeType.ARRAY) {
+			for(JsonNode stationNode : stationsNode) {
+				Station station = Station.DeserializeStation(stationNode);
+				scenario.AddStation(station);
+			}
+		}
+		return scenario;
+	}
 	
 	
 	@Override

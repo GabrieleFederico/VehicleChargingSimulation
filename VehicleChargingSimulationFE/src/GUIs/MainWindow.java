@@ -12,7 +12,6 @@ import javax.swing.border.EmptyBorder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 import Controllers.Message;
 import Entities.Battery;
@@ -141,53 +140,7 @@ public class MainWindow extends JFrame {
 		ObjectMapper om = new ObjectMapper();
 		try {
 			JsonNode scenarioNode = om.readTree(filename);
-			Scenario scenario = new Scenario();
-			scenario.SetName(scenarioNode.get("scenario_name").textValue());
-			JsonNode stationsNode = scenarioNode.get("stations");
-			JsonNodeType stationsNodeType = stationsNode.getNodeType();
-			if(stationsNodeType == JsonNodeType.ARRAY) {
-				for(JsonNode stationNode : stationsNode) {
-					Station station = new Station();
-					station.SetName(stationNode.get("station_name").textValue());
-					station.SetStrategy(stationNode.get("strategy").textValue());
-					station.SetMaximumChargingVehicles(stationNode.get("max_vehicles").asInt());
-					JsonNode vehiclesNode = stationNode.get("vehicles");
-					JsonNodeType vehiclesNodeType = vehiclesNode.getNodeType();
-					if(vehiclesNodeType == JsonNodeType.ARRAY) {
-						for(JsonNode vehicleNode : vehiclesNode) {
-							Vehicle vehicle = new Vehicle();
-							vehicle.SetName(vehicleNode.get("vehicle_name").textValue());
-							vehicle.SetArrival(vehicleNode.get("arrival").asInt());
-							vehicle.SetDeparture(vehicleNode.get("departure").asInt());
-							vehicle.SetDesiredCharge(vehicleNode.get("desired_charge").asInt());
-							JsonNode vehicleComponentsNode = vehicleNode.get("vehicle_components");
-							JsonNodeType vehicleComponentsNodeType = vehicleComponentsNode.getNodeType();
-							if(vehicleComponentsNodeType == JsonNodeType.ARRAY) {
-								for(JsonNode vehicleComponentNode : vehicleComponentsNode) {
-									Battery component = new Battery();
-									component.SetCapacity(vehicleComponentNode.get("capacity").floatValue());
-									component.SetChargePower(vehicleComponentNode.get("charge_power").floatValue());
-									component.SetSOC(vehicleComponentNode.get("state_of_charge").asInt());
-									vehicle.AddComponent(component.GetName(), component);
-								}
-							}
-							station.AddVehicle(vehicle);
-						}
-					}
-					JsonNode stationsComponentsNode = stationNode.get("station_components");
-					JsonNodeType stationComponentsNodeType = stationsComponentsNode.getNodeType();
-					if(stationComponentsNodeType == JsonNodeType.ARRAY) {
-						for(JsonNode stationsComponentNode : stationsComponentsNode) {
-							Battery component = new Battery();
-							component.SetCapacity(stationsComponentNode.get("capacity").floatValue());
-							component.SetChargePower(stationsComponentNode.get("charge_power").floatValue());
-							component.SetSOC(stationsComponentNode.get("state_of_charge").asInt());
-							station.AddComponent(component.GetName(), component);
-						}
-					}
-					scenario.AddStation(station);
-				}
-			}
+			Scenario scenario = Scenario.DeserializeScenario(scenarioNode);
 			makeUi(scenario);
 			revalidate();
 			repaint();

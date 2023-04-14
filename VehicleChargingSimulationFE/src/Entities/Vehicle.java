@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
+
 
 public class Vehicle {
 
@@ -75,6 +78,23 @@ public class Vehicle {
 
 	public void SetDesiredCharge(float desiredCharge) {
 		_desiredCharge = desiredCharge;
+	}
+	
+	public static Vehicle DeserializeVehicle(JsonNode vehicleNode) {
+		Vehicle vehicle = new Vehicle();
+		vehicle.SetName(vehicleNode.get("vehicle_name").textValue());
+		vehicle.SetArrival(vehicleNode.get("arrival").asInt());
+		vehicle.SetDeparture(vehicleNode.get("departure").asInt());
+		vehicle.SetDesiredCharge(vehicleNode.get("desired_charge").asInt());
+		JsonNode vehicleComponentsNode = vehicleNode.get("vehicle_components");
+		JsonNodeType vehicleComponentsNodeType = vehicleComponentsNode.getNodeType();
+		if(vehicleComponentsNodeType == JsonNodeType.ARRAY) {
+			for(JsonNode vehicleComponentNode : vehicleComponentsNode) {
+				Component component = Component.DeserializeComponent(vehicleComponentNode);
+				vehicle.AddComponent(component.GetName(), component);
+			}
+		}
+		return vehicle;
 	}
 	
 	@Override

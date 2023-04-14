@@ -6,6 +6,9 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
+
 public class Station {
 	
 	@JsonProperty("station_name")
@@ -66,6 +69,30 @@ public class Station {
 	
 	public void SetMaximumChargingVehicles(int maximumChargingVehicles) {
 		_maximumChargingVehicles = maximumChargingVehicles;
+	}
+	
+	public static Station DeserializeStation(JsonNode stationNode) {
+		Station station = new Station();
+		station.SetName(stationNode.get("station_name").textValue());
+		station.SetStrategy(stationNode.get("strategy").textValue());
+		station.SetMaximumChargingVehicles(stationNode.get("max_vehicles").asInt());
+		JsonNode vehiclesNode = stationNode.get("vehicles");
+		JsonNodeType vehiclesNodeType = vehiclesNode.getNodeType();
+		if(vehiclesNodeType == JsonNodeType.ARRAY) {
+			for(JsonNode vehicleNode : vehiclesNode) {
+				Vehicle vehicle = Vehicle.DeserializeVehicle(vehicleNode);
+				station.AddVehicle(vehicle);
+			}
+		}
+		JsonNode stationsComponentsNode = stationNode.get("station_components");
+		JsonNodeType stationComponentsNodeType = stationsComponentsNode.getNodeType();
+		if(stationComponentsNodeType == JsonNodeType.ARRAY) {
+			for(JsonNode stationsComponentNode : stationsComponentsNode) {
+				Component component = Component.DeserializeComponent(stationsComponentNode);
+				station.AddComponent(component.GetName(), component);
+			}
+		}
+		return station;
 	}
 	
 	@Override
