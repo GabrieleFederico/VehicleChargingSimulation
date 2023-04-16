@@ -27,7 +27,10 @@ class Station:
         self.components[name] = component
 
     def runStrategy(self):
-        threading.Thread(target=self.run).start()
+        t1 = threading.Thread(target=self.run)
+        t1.start()
+        t1.join()
+
 
     def run(self):
         t1 = threading.Thread(target=self.strategy.run, args=(self,), name="T1")
@@ -90,6 +93,7 @@ class Station:
         attributes = thirdSplit[1].split(",")
         station = Station(nameSplit[1], Strategy.parseStrategy(attributes[0]))
         station.maximumChargingVehicles = int(attributes[1].split(":")[1])
+        station.chargingPowers = [0 for _ in range(0, station.maximumChargingVehicles)]
         for vehicleString in vehiclesStrings:
             if "vehicle_name" in vehicleString:
                 station.addVehicle(Vehicle.parseVehicle(vehicleString))

@@ -11,7 +11,8 @@ class Scenario:
 
     def runSimulation(self):
         for station in self.stations:
-            threading.Thread(target=station.runStrategy()).start()
+            station.runStrategy()
+
 
     def addStation(self, station):
         self.stations.append(station)
