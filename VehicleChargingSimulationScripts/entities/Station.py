@@ -11,7 +11,7 @@ class Station:
         self.name = name
         self.components = {}
         self.strategy = strategy
-        self.vehicles = []
+        self.vehiclesToCharge = []
         self.maxChargePower = 300
         self.availableChargePower = 300
         self.chargingVehicles = []
@@ -20,27 +20,22 @@ class Station:
         self.time = 0
 
     def addVehicle(self, vehicle):
-        self.vehicles.append(vehicle)
+        self.vehiclesToCharge.append(vehicle)
 
     def addComponent(self, component, name):
         component.owner = self
         self.components[name] = component
 
     def runStrategy(self):
-        t1 = threading.Thread(target=self.run)
-        t1.start()
-        t1.join()
-
-
-    def run(self):
         t1 = threading.Thread(target=self.strategy.run, args=(self,), name="T1")
         t2 = threading.Thread(target=self.chargeVehicles, name="T2")
         t1.start()
         t2.start()
 
     def chargeVehicles(self):
-        while len(self.vehicles) > 0:
+        while len(self.vehiclesToCharge) > 0:
             while len(self.chargingVehicles) > 0:
+                print(len(self.chargingVehicles))
                 self.assignChargingPower()
                 i = 0
                 for vehicle in self.chargingVehicles:
@@ -53,23 +48,23 @@ class Station:
                         vehicle.finishingChargeTime = self.time
                         vehicle.timeToCharge = vehicle.finishingChargeTime - vehicle.startingChargeTime
                         self.chargingVehicles.remove(vehicle)
-                        self.vehicles.remove(vehicle)
+                        self.vehiclesToCharge.remove(vehicle)
                         self.strategy.condition.notify_all()
                         self.strategy.condition.release()
                     print(self.time, vehicle.name, vehicle.getBattery().stateOfCharge, self.availableChargePower,
                           vehicle.startingChargeTime, vehicle.finishingChargeTime)
                 with self.strategy.condition:
                     self.time += 1
-                    if len(self.chargingVehicles) < self.maximumChargingVehicles and 1 < len(self.vehicles) != len(
+                    if len(self.chargingVehicles) < self.maximumChargingVehicles and 1 < len(self.vehiclesToCharge) != len(
                             self.chargingVehicles):
                         self.strategy.condition.notify_all()
                         self.strategy.condition.wait()
             with self.strategy.condition:
-                if len(self.vehicles) > 0:
+                if len(self.vehiclesToCharge) > 0:
                     self.time += 1
                     self.strategy.condition.notify_all()
                     self.strategy.condition.wait()
-        #self.collectResult()
+        # self.collectResult()
 
     def assignChargingPower(self):
         sortByPriority(self.chargingVehicles)
@@ -109,7 +104,7 @@ class Station:
         for compName, comp in self.components.items():
             componentsDicts.append(comp.toDict())
         vehiclesDicts = []
-        for vehicle in self.vehicles:
+        for vehicle in self.vehiclesToCharge:
             vehiclesDicts.append(vehicle.toDict())
         return {"station_name": self.name, "vehicles": vehiclesDicts, "station_components": componentsDicts,
                 "max_vehicles": self.maximumChargingVehicles, "strategy": self.strategy.name}

@@ -10,8 +10,8 @@ class EDF(Strategy):
         self.name = "EarliestDeadlineFirst"
 
     def run(self, station):
-        sortByArrival(station.vehicles)
-        for vehicle in station.vehicles:
+        sortByArrival(station.vehiclesToCharge)
+        for vehicle in station.vehiclesToCharge:
             while len(station.chargingVehicles) >= 2:
                 self.condition.wait()
             if len(station.chargingVehicles) < 2:

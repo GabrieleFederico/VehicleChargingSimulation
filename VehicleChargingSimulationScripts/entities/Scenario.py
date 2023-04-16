@@ -13,7 +13,7 @@ class Scenario:
     def runSimulation(self):
         for station in self.stations:
             station.runStrategy()
-        exportToCsvScenarioResult(self)
+        #exportToCsvScenarioResult(self)
 
     def addStation(self, station):
         self.stations.append(station)

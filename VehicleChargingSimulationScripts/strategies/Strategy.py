@@ -26,22 +26,18 @@ class FCFS(Strategy):
         self.condition = threading.Condition()
 
     def run(self, station):
-        sortByArrival(station.vehicles)
-        for vehicle in station.vehicles:
-            while len(station.chargingVehicles) >= station.maximumChargingVehicles:
-                with self.condition:
-                    self.condition.wait()
-            if len(station.chargingVehicles) < station.maximumChargingVehicles:
-                while station.time < vehicle.arrival:
-                    with self.condition:
-                        self.condition.notify_all()
-                        self.condition.wait()
-                with self.condition:
-                    station.chargingVehicles.append(vehicle)
-                    vehicle.charging = True
-                    vehicle.startingChargeTime = station.time
-                    self.condition.notify_all()
-                    self.assignPriority(station.chargingVehicles)
+        sortByArrival(station.vehiclesToCharge)
+        for vehicle in station.vehiclesToCharge:
+            self.condition.acquire()
+            while len(station.chargingVehicles) >= station.maximumChargingVehicles or station.time < vehicle.arrival:
+                self.condition.notify_all()
+                self.condition.wait()
+            station.chargingVehicles.append(vehicle)
+            vehicle.charging = True
+            vehicle.startingChargeTime = station.time
+            self.assignPriority(station.chargingVehicles)
+            self.condition.notify_all()
+            self.condition.release()
 
     def assignPriority(self, vehicles):
         i = 1

@@ -12,7 +12,7 @@ def exportToCsvScenarioResult(scenario):
         with open(path+'/'+station.name+'.csv', 'w') as f:
             writer = csv.writer(f, dialect='excel')
             writer.writerow(header)
-            for vehicle in station.vehicles:
+            for vehicle in station.vehiclesToCharge:
                 #print(vehicle.name, vehicle.arrival, vehicle.departure, vehicle.startingChargeTime, vehicle.finishingChargeTime)
                 data = [vehicle.name, vehicle.finishingChargeTime - vehicle.startingChargeTime, vehicle.startingChargeTime - vehicle.arrival]
                 writer.writerow(data)
