@@ -55,8 +55,3 @@ class Battery(Component):
         return {"component_name": "Battery", "capacity": self.capacity, "charge_power": self.chargePower,
                 "state_of_charge": self.stateOfCharge}
 
-
-class SolarPanel(Component):
-    def __init__(self, owner):
-        super().__init__(owner=owner)
-        self.energyRate = .5
