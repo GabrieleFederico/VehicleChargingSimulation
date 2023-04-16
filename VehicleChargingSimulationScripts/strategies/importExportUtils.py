@@ -3,8 +3,6 @@ import json
 import os
 import time
 
-from entities.Scenario import Scenario
-
 
 def exportToCsvScenarioResult(scenario):
     header = ['Vehicle name', 'Time to charge', 'Waiting Time']
@@ -20,7 +18,7 @@ def exportToCsvScenarioResult(scenario):
                 writer.writerow(data)
 
 
-def exportToJson(scenario: Scenario):
+def exportToJson(scenario):
     jsonObject = json.dumps(scenario.toDict(), indent=4, )
     with open("JSONFiles/scenario"+str(round(time.time()*1000))+".json", "w") as out:
         out.write(jsonObject)

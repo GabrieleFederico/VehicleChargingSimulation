@@ -1,6 +1,7 @@
 import threading
 
 from entities.Station import Station
+from strategies.importExportUtils import exportToCsvScenarioResult
 
 
 class Scenario:
@@ -12,7 +13,7 @@ class Scenario:
     def runSimulation(self):
         for station in self.stations:
             station.runStrategy()
-
+        exportToCsvScenarioResult(self)
 
     def addStation(self, station):
         self.stations.append(station)
