@@ -39,9 +39,6 @@ public class MainWindow extends JFrame {
 	private JButton addStationButton;
 	private GroupLayout gl_contentPane;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -55,9 +52,6 @@ public class MainWindow extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public MainWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 715, 488);
@@ -146,7 +140,6 @@ public class MainWindow extends JFrame {
 			repaint();
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -15,10 +15,6 @@ public class Scenario {
 	@JsonProperty("stations")
 	private ArrayList<Station> _stations = new ArrayList<>();
 
-	public void RunSimulation() {
-		//TODO: call the python script to run the simulation and send it the whole scenario
-	}
-	
 	public void AddStation(Station newStation) {
 		_stations.add(newStation);
 	}

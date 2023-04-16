@@ -30,9 +30,6 @@ public class VehicleWidget extends JPanel {
 
 	private GroupLayout gl_contentPane;
 	
-	/**
-	 * Create the frame.
-	 */
 	public VehicleWidget() {
 		
 		nameLabel = new JLabel("Name");

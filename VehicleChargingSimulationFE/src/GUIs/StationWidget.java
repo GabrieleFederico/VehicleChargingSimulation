@@ -16,9 +16,6 @@ public class StationWidget extends JScrollPane {
 	private ArrayList<VehicleWidget> vehicleWidgets = new ArrayList<>();
 	public StationDetailsWidget stationDetails = new StationDetailsWidget();
 	
-	/**
-	 * Create the panel.
-	 */
 	public StationWidget() {
 		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));

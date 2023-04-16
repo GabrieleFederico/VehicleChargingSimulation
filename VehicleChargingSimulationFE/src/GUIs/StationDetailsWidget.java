@@ -30,9 +30,6 @@ public class StationDetailsWidget extends JPanel {
 	private JTextField maxVehiclesTextField;
 	private JLabel maxVehiclesLabel;
 	
-	/**
-	 * Create the frame.
-	 */
 	public StationDetailsWidget() {
 		
 		nameLabel = new JLabel("Name");
