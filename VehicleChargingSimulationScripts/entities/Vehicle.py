@@ -12,7 +12,7 @@ class Vehicle:
         self.finishingChargeTime = -1
         self.priority = 0
         self.desiredCharge = desiredCharge
-        self.timeToCharge = 0
+        self.satisfied = False
 
     def getArrival(self):
         return self.arrival
@@ -36,7 +36,7 @@ class Vehicle:
     def charge(self, power):
         self.components["Battery"].charge(power)
 
-    def reachedDesiredCharge(self):
+    def hasReachedDesiredCharge(self):
         return self.components["Battery"].stateOfCharge >= self.desiredCharge
 
     @classmethod
