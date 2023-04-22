@@ -29,9 +29,7 @@ class Station:
         self.components[name] = component
 
     def runStrategy(self):
-        t2 = threading.Thread(target=self.chargeVehicles, name="T1")
-        t2.start()
-        t2.join()
+        self.chargeVehicles()
 
     def chargeVehicles(self):
         while len(self.waitingVehicles) > 0:
@@ -48,9 +46,9 @@ class Station:
                         if vehicle.hasReachedDesiredCharge():
                             vehicle.satisfied = True
                         self.chargingVehicles.remove(vehicle)
+                    print(self.time, vehicle.name, vehicle.arrival, vehicle.departure, vehicle.startingChargeTime, vehicle.finishingChargeTime, vehicle.getStateOfCharge())
                 self.time += 1
-                if len(self.chargingVehicles) < self.maximumChargingVehicles and 1 <= len(self.waitingVehicles) != len(
-                        self.chargingVehicles):
+                if len(self.chargingVehicles) < self.maximumChargingVehicles and 1 <= len(self.waitingVehicles):
                     self.strategy.run(self)
             if len(self.waitingVehicles) > 0:
                 self.time += 1

@@ -5,7 +5,7 @@ import time
 
 
 def exportToCsvScenarioResult(scenario):
-    header = ['Vehicle name', 'Time to charge', 'Waiting Time', 'Satisfied']
+    header = ['Vehicle name', 'Time in charge', 'Waiting Time', 'Satisfied']
     path = 'CSVFiles/ScenarioResult'+str(round(time.time()*1000))
     os.mkdir(path)
     for station in scenario.stations:
