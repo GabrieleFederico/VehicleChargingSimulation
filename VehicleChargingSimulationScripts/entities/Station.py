@@ -2,7 +2,7 @@ import threading
 
 from entities.Component.Component import Component
 from entities.Vehicle import Vehicle
-from strategies.Strategy import Strategy, FCFS
+from strategies.Strategy import Strategy
 from strategies.utils import sortByPriority
 
 
@@ -46,7 +46,7 @@ class Station:
                         if vehicle.hasReachedDesiredCharge():
                             vehicle.satisfied = True
                         self.chargingVehicles.remove(vehicle)
-                    print(self.time, vehicle.name, vehicle.arrival, vehicle.departure, vehicle.startingChargeTime, vehicle.finishingChargeTime, vehicle.getStateOfCharge())
+                    print(self.time, vehicle.name, vehicle.arrival, vehicle.departure)
                 self.time += 1
                 if len(self.chargingVehicles) < self.maximumChargingVehicles and 1 <= len(self.waitingVehicles):
                     self.strategy.run(self)
@@ -96,16 +96,3 @@ class Station:
             vehiclesDicts.append(vehicle.toDict())
         return {"station_name": self.name, "vehicles": vehiclesDicts, "station_components": componentsDicts,
                 "max_vehicles": self.maximumChargingVehicles, "strategy": self.strategy.name}
-
-    # TODO: Should these 3 methods be here or in a Result class? Or maybe in the Scenario class?
-    # Or maybe in the result class which should be an attribute of Scenario?
-
-    def collectResult(self):
-        self.totalSimulationResult()
-        self.perVehicleResult()
-
-    def totalSimulationResult(self):
-        pass
-
-    def perVehicleResult(self):
-        pass
