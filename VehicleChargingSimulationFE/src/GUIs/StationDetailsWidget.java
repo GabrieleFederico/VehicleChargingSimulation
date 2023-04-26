@@ -35,13 +35,13 @@ public class StationDetailsWidget extends JPanel {
 		nameLabel = new JLabel("Name");
 		nameTextField = new JTextField();
 		nameTextField.setColumns(10);
-		capacityLabel = new JLabel("Capacity");
+		capacityLabel = new JLabel("Capacity(kWh)");
 		capacityTextField = new JTextField();
 		capacityTextField.setColumns(10);
-		chargePowerLabel = new JLabel("Charge Power");
+		chargePowerLabel = new JLabel("Charge Power(kW)");
 		chargePowerTextField = new JTextField();
 		chargePowerTextField.setColumns(10);
-		SOCLabel = new JLabel("SOC");
+		SOCLabel = new JLabel("SOC(%)");
 		SOCTextField = new JTextField();
 		SOCTextField.setColumns(10);
 		maxVehiclesTextField = new JTextField();
