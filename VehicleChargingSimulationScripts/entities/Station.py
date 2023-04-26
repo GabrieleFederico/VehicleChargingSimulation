@@ -9,15 +9,16 @@ from strategies.utils import sortByPriority
 class Station:
     def __init__(self, name, strategy):
         self.name = name
+        self.networkChargePower = 40
         self.components = {}
         self.strategy = strategy
         self.waitingVehicles = []
         self.vehicles = []
-        self.maxChargePower = 300
         self.availableChargePower = 300
         self.chargingVehicles = []
         self.maximumChargingVehicles = 3
         self.chargingPowers = [0 for _ in range(0, self.maximumChargingVehicles)]
+        self.usingBattery = False
         self.time = 0
 
     def addVehicle(self, vehicle):
@@ -53,18 +54,33 @@ class Station:
             if len(self.waitingVehicles) > 0:
                 self.time += 1
                 self.strategy.run(self)
+            self.components["Battery"].charge(self.networkChargePower/60)
+
+    def verifyAvailableChargePower(self):
+        print(self.usingBattery)
+        if self.components["Battery"].getStateOfCharge() > 20:
+            self.availableChargePower = self.components["Battery"].getChargePower()
+            self.usingBattery = True
+        else:
+            self.availableChargePower = self.networkChargePower
+            self.usingBattery = False
 
     def assignChargingPower(self):
+        self.verifyAvailableChargePower()
         sortByPriority(self.chargingVehicles)
+        print(self.availableChargePower)
         for i in range(0, len(self.chargingVehicles)):
             if self.availableChargePower <= self.chargingVehicles[i].getBattery().getChargePower():
-                if self.chargingPowers[i] <= i:
-                    self.chargingPowers[i] = self.availableChargePower / 60
-                    self.availableChargePower -= self.availableChargePower
+                self.chargingPowers[i] = self.availableChargePower / 60
+                self.availableChargePower -= self.availableChargePower
+                if self.usingBattery:
+                    self.components["Battery"].charge(-self.chargingPowers[i])
             else:
-                if self.chargingPowers[i] <= i:
-                    self.chargingPowers[i] = self.chargingVehicles[i].getBattery().getChargePower() / 60
-                    self.availableChargePower -= self.chargingVehicles[i].getBattery().getChargePower()
+                self.chargingPowers[i] = self.chargingVehicles[i].getBattery().getChargePower() / 60
+                self.availableChargePower -= self.chargingVehicles[i].getBattery().getChargePower()
+                if self.usingBattery:
+                    self.components["Battery"].charge(-self.chargingPowers[i])
+
 
     @classmethod
     def parseStation(cls, string):
@@ -96,3 +112,4 @@ class Station:
             vehiclesDicts.append(vehicle.toDict())
         return {"station_name": self.name, "vehicles": vehiclesDicts, "station_components": componentsDicts,
                 "max_vehicles": self.maximumChargingVehicles, "strategy": self.strategy.name}
+
