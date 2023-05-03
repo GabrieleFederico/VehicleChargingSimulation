@@ -4,7 +4,7 @@ from strategies.utils import sortByArrival, sortByDeparture
 
 
 class Strategy:
-    name = "StrategyName"
+    name = "ALL"
 
     def __init__(self):
         pass
@@ -18,6 +18,8 @@ class Strategy:
             return FCFS()
         if string.strip() == "EDF":
             return EDF()
+        if string.strip() == "ALL":
+            return Strategy()
 
 
 class FCFS(Strategy):

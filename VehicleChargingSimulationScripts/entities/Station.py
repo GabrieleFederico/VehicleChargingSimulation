@@ -47,7 +47,6 @@ class Station:
                         if vehicle.hasReachedDesiredCharge():
                             vehicle.satisfied = True
                         self.chargingVehicles.remove(vehicle)
-                    print(self.time, vehicle.name, vehicle.arrival, vehicle.departure)
                 self.time += 1
                 if len(self.chargingVehicles) < self.maximumChargingVehicles and 1 <= len(self.waitingVehicles):
                     self.strategy.run(self)
@@ -57,7 +56,6 @@ class Station:
             self.components["Battery"].charge(self.networkChargePower/60)
 
     def verifyAvailableChargePower(self):
-        print(self.usingBattery)
         if self.components["Battery"].getStateOfCharge() > 20:
             self.availableChargePower = self.components["Battery"].getChargePower()
             self.usingBattery = True
@@ -68,7 +66,6 @@ class Station:
     def assignChargingPower(self):
         self.verifyAvailableChargePower()
         sortByPriority(self.chargingVehicles)
-        print(self.availableChargePower)
         for i in range(0, len(self.chargingVehicles)):
             if self.availableChargePower <= self.chargingVehicles[i].getBattery().getChargePower():
                 self.chargingPowers[i] = self.availableChargePower / 60

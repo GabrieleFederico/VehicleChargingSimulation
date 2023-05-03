@@ -166,8 +166,12 @@ public class VehicleWidget extends JPanel {
 	}
 	
 	public Vehicle makeVehicle() {
+		String departureString = departureTextField.getText();
+		int departure = 0;
+		if(departureString.isBlank()) departure = Integer.MAX_VALUE;
+		else departure = Integer.parseInt(departureString);
 		Vehicle vehicle =  new Vehicle(nameTextField.getText(),
-				Integer.parseInt(arrivalTextField.getText()), Integer.parseInt(departureTextField.getText()),
+				Integer.parseInt(arrivalTextField.getText()), departure,
 				Float.parseFloat(desiredChargeTextField.getText()));
 		vehicle.AddComponent("Battery", makeBattery());
 		return vehicle;

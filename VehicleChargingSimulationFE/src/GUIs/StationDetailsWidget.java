@@ -49,7 +49,7 @@ public class StationDetailsWidget extends JPanel {
 		maxVehiclesLabel = new JLabel("MAX Vehicles");
 		
 		strategyDropPanel = new JComboBox<>();
-		strategyDropPanel.setModel(new DefaultComboBoxModel<String>(new String[] { "FCFS", "EDF", "RR" }));
+		strategyDropPanel.setModel(new DefaultComboBoxModel<String>(new String[] { "FCFS", "EDF", "RR", "ALL" }));
 		
 		strategyLabel = new JLabel("Strategy");
 		
