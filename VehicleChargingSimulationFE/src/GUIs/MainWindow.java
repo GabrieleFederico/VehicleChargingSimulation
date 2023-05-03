@@ -38,6 +38,7 @@ public class MainWindow extends JFrame {
 	private JButton addVehicleButton;
 	private JButton addStationButton;
 	private GroupLayout gl_contentPane;
+	private JButton removeStationButton;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -69,10 +70,12 @@ public class MainWindow extends JFrame {
 		stationsTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 
 		addStationButton = new JButton("Add Station");
-		gl_contentPane = new GroupLayout(contentPane);
+		
+		removeStationButton = new JButton("Remove Station");
+		
 		setMainLayout();
 
-		addStation(stationsTabbedPane);
+		addStation();
 
 		contentPane.setLayout(gl_contentPane);
 
@@ -84,7 +87,11 @@ public class MainWindow extends JFrame {
 		});
 
 		addStationButton.addActionListener(e -> {
-			addStation(stationsTabbedPane);
+			addStation();
+		});
+		
+		removeStationButton.addActionListener(e -> {
+			removeStation();
 		});
 
 		importButton.addActionListener(e -> {
@@ -110,11 +117,23 @@ public class MainWindow extends JFrame {
 		setContentPane(contentPane);
 	}
 
-	private JScrollPane addStation(JTabbedPane tabbedPane) {
+	private JScrollPane addStation() {
 		JScrollPane station = new StationWidget();
 		stationWidgets.add((StationWidget) station);
-		tabbedPane.addTab("Station " + (tabbedPane.getTabCount() + 1), station);
+		stationsTabbedPane.addTab("Station " + (stationsTabbedPane.getTabCount() + 1), station);
 		return station;
+	}
+	
+	private void removeStation() {
+		int selectedIndex = stationsTabbedPane.getSelectedIndex();
+		if (selectedIndex != -1) {
+			stationsTabbedPane.remove(selectedIndex);
+		}
+		for(int i = 0; i < stationsTabbedPane.getTabCount(); i++) {
+			stationsTabbedPane.setTitleAt(i, "Station" + (i+1));
+		}
+		revalidate();
+		repaint();
 	}
 
 	private JPanel addVehicle(JScrollPane tabPanel) {
@@ -149,7 +168,7 @@ public class MainWindow extends JFrame {
 		stationsTabbedPane.removeAll();
 		for(int i = 0; i < stations.size(); i++) {
 			StationWidget addedWidget;
-			addedWidget = (StationWidget) addStation(stationsTabbedPane);
+			addedWidget = (StationWidget) addStation();
 			StationDetailsWidget stationDetails = addedWidget.stationDetails;
 			stationDetails.SetCapacity(
 					((Battery)stations.get(i).GetComponents().get("Battery")).GetCapacity());
@@ -217,35 +236,46 @@ public class MainWindow extends JFrame {
 	}
 
 	private void setMainLayout() {
-		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
-				.createSequentialGroup().addContainerGap()
-				.addComponent(stationsTabbedPane, GroupLayout.PREFERRED_SIZE, 531, GroupLayout.PREFERRED_SIZE)
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup().addPreferredGap(ComponentPlacement.UNRELATED)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(exportButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-										.addComponent(runButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-										.addComponent(importButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)))
-						.addGroup(gl_contentPane.createSequentialGroup().addGap(6)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(addStationButton, GroupLayout.PREFERRED_SIZE, 105,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(addVehicleButton, GroupLayout.PREFERRED_SIZE, 105,
-												GroupLayout.PREFERRED_SIZE))))
-				.addGap(121)));
-		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
-				.createSequentialGroup()
-				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane
-						.createSequentialGroup().addGap(37)
-						.addComponent(addStationButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
-						.addComponent(addVehicleButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
-						.addGap(23)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(importButton)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(exportButton)
-						.addPreferredGap(ComponentPlacement.RELATED).addComponent(runButton))
-						.addGroup(gl_contentPane.createSequentialGroup().addContainerGap().addComponent(
-								stationsTabbedPane, GroupLayout.PREFERRED_SIZE, 419, GroupLayout.PREFERRED_SIZE)))
-				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(stationsTabbedPane, GroupLayout.PREFERRED_SIZE, 531, GroupLayout.PREFERRED_SIZE)
+					.addGap(6)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED, 4, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(exportButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+								.addComponent(runButton, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+								.addComponent(importButton, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(addVehicleButton, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
+						.addComponent(removeStationButton, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+						.addComponent(addStationButton, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(37)
+							.addComponent(addStationButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(removeStationButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+							.addGap(13)
+							.addComponent(addVehicleButton, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(importButton)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(exportButton)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(runButton))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(stationsTabbedPane, GroupLayout.PREFERRED_SIZE, 419, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
 	}
 }
