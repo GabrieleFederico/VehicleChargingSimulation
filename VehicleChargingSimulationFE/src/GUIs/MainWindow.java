@@ -132,8 +132,6 @@ public class MainWindow extends JFrame {
 		for(int i = 0; i < stationsTabbedPane.getTabCount(); i++) {
 			stationsTabbedPane.setTitleAt(i, "Station" + (i+1));
 		}
-		revalidate();
-		repaint();
 	}
 
 	private JPanel addVehicle(JScrollPane tabPanel) {
