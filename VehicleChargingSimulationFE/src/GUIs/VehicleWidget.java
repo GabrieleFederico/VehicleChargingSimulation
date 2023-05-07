@@ -134,7 +134,7 @@ public class VehicleWidget extends JPanel {
 								.addComponent(SOCLabel)
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addComponent(SOCTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addGap(67))
+					.addGap(45))
 		);
 			this.setLayout(gl_contentPane);
 	}
