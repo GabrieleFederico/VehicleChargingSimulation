@@ -38,8 +38,10 @@ public class VehicleWidget extends JPanel {
 		nameTextField = new JTextField();
 		nameTextField.setColumns(10);
 		arrivalTextField = new JTextField();
+		arrivalTextField.setToolTipText("Time in minutes since start of simulation");
 		arrivalTextField.setColumns(10);
 		departureTextField = new JTextField();
+		departureTextField.setToolTipText("Time in minutes since start of simulation(if absent will set to integer maxvalue)");
 		departureTextField.setColumns(10);
 		capacityLabel = new JLabel("Capacity(kWh)");
 		capacityTextField = new JTextField();
