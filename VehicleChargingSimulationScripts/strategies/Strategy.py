@@ -12,13 +12,12 @@ class Strategy:
     def run(self, station):
         sortByArrival(station.waitingVehicles)
         for vehicle in station.waitingVehicles:
-            if len(station.chargingVehicles) >= station.maximumChargingVehicles or station.time < vehicle.arrival:
-                return
-            station.chargingVehicles.append(vehicle)
-            station.waitingVehicles.remove(vehicle)
-            vehicle.charging = True
-            vehicle.startingChargeTime = station.time
-            self.assignPriority(station.chargingVehicles)
+            if len(station.chargingVehicles) < station.maximumChargingVehicles and station.time >= vehicle.arrival:
+                station.chargingVehicles.append(vehicle)
+                station.waitingVehicles.remove(vehicle)
+                vehicle.charging = True
+                vehicle.startingChargeTime = station.time
+        self.assignPriority(station.chargingVehicles)
         return
 
     @classmethod
@@ -27,6 +26,8 @@ class Strategy:
             return FCFS()
         if string.strip() == "EDF":
             return EDF()
+        if string.strip() == "RR":
+            return RR()
         if string.strip() == "ALL":
             return Strategy()
 
@@ -65,3 +66,28 @@ class EDF(Strategy):
         for vehicle in vehicles:
             vehicle.priority = i
             i += 1
+
+
+class RR(Strategy):
+
+    def __init__(self):
+        super().__init__()
+        self.name = "RR"
+        self.priorities = []
+
+    def run(self, station):
+        super().run(station)
+
+    def assignPriority(self, vehicles):
+        if len(self.priorities) < len(vehicles):
+            self.priorities = [x for x in range(1, len(vehicles) + 1)]
+        for i in range(0, len(vehicles)):
+            vehicles[i].priority = self.priorities[i]
+        if self.priorities[0] == 1:
+            self.rotatePriorities()
+
+    def rotatePriorities(self):
+        last = self.priorities[len(self.priorities) - 1]
+        for i in range(len(self.priorities) - 1, 0, -1):
+            self.priorities[i] = self.priorities[i-1]
+        self.priorities[0] = last

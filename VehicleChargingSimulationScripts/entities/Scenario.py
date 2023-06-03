@@ -2,7 +2,7 @@ import copy
 import threading
 
 from entities.Station import Station
-from strategies.Strategy import FCFS, EDF
+from strategies.Strategy import FCFS, EDF, RR
 from strategies.importExportUtils import exportToCsvScenarioResult
 
 
@@ -21,8 +21,12 @@ class Scenario:
                 edfStation = copy.deepcopy(station)
                 edfStation.strategy = EDF()
                 edfStation.name = station.name + "EDF"
+                rrStation = copy.deepcopy(station)
+                rrStation.strategy = RR()
+                rrStation.name = station.name + "RR"
                 self.stations.append(fcfsStation)
                 self.stations.append(edfStation)
+                self.stations.append(rrStation)
             else:
                 station.runStrategy()
 

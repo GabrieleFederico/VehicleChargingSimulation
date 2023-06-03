@@ -48,8 +48,7 @@ class Station:
                             vehicle.satisfied = True
                         self.chargingVehicles.remove(vehicle)
                 self.time += 1
-                if len(self.chargingVehicles) < self.maximumChargingVehicles and 1 <= len(self.waitingVehicles):
-                    self.strategy.run(self)
+                self.strategy.run(self)
             if len(self.waitingVehicles) > 0:
                 self.time += 1
                 self.strategy.run(self)
