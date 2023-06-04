@@ -1,5 +1,3 @@
-import threading
-
 from strategies.utils import sortByArrival, sortByDeparture
 
 

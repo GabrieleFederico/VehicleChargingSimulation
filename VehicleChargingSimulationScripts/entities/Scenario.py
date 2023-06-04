@@ -1,5 +1,4 @@
 import copy
-import threading
 
 from entities.Station import Station
 from strategies.Strategy import FCFS, EDF, RR

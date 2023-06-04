@@ -1,5 +1,3 @@
-import threading
-
 from entities.Component.Component import Component
 from entities.Vehicle import Vehicle
 from strategies.Strategy import Strategy

@@ -1,4 +1,4 @@
-from entities.Component.Component import Battery, Component
+from entities.Component.Component import Component
 
 
 class Vehicle:
