@@ -45,6 +45,7 @@ public class MainWindow extends JFrame {
 			public void run() {
 				try {
 					MainWindow frame = new MainWindow();
+					frame.setTitle("Vehicle Charging Simulation");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
