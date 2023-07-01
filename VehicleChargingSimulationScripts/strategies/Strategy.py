@@ -74,11 +74,11 @@ class RR(Strategy):
         self.priorities = []
 
     def run(self, station):
+        if len(self.priorities) == 0:
+            self.priorities = [x for x in range(1, station.maximumChargingVehicles+1)]
         super().run(station)
 
     def assignPriority(self, vehicles):
-        if len(self.priorities) < len(vehicles):
-            self.priorities = [x for x in range(1, len(vehicles) + 1)]
         for i in range(0, len(vehicles)):
             vehicles[i].priority = self.priorities[i]
         if self.priorities[0] == 1:
